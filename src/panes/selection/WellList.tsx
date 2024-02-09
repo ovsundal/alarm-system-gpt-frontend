@@ -8,15 +8,15 @@ const headers = ["", "Well name"];
 
 export const WellList: React.FC<{
   wells: IWell[];
-  selectedWell: string;
-  setSelectedWell: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ wells, setSelectedWell, selectedWell }) => {
+  selectedWellId: string;
+  setSelectedWellId: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ wells, setSelectedWellId, selectedWellId }) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectedWell(event.target.id);
+    setSelectedWellId(event.target.id);
   };
 
   const onRowClick = (id: string) => {
-    setSelectedWell(id);
+    setSelectedWellId(id);
   };
 
   return (
@@ -42,14 +42,14 @@ export const WellList: React.FC<{
         <Table.Body>
           {wells.map(({ name, id }) => (
             <TableRowWrapper
-              $isSelected={selectedWell === id.toString()}
+              $isSelected={selectedWellId === id.toString()}
               key={id}
               onClick={() => onRowClick(id.toString())}
             >
               <Table.Cell>
                 <Radio
                   id={id.toString()}
-                  checked={selectedWell === id.toString()}
+                  checked={selectedWellId === id.toString()}
                   onChange={onChange}
                 />
               </Table.Cell>

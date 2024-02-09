@@ -6,7 +6,9 @@ import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 
 export const Panes = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [selectedWell, setSelectedWell] = useState("");
+  const [selectedWellId, setSelectedWellId] = useState("");
+  const [alarmIsManual, setAlarmIsManual] = useState(false);
+  const [alarmValues, setAlarmValues] = useState([30, 70]);
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
@@ -25,8 +27,12 @@ export const Panes = () => {
       <Tabs.Panels>
         <Tabs.Panel>
           <Selection
-            selectedWell={selectedWell}
-            setSelectedWell={setSelectedWell}
+            selectedWellId={selectedWellId}
+            setSelectedWellId={setSelectedWellId}
+            alarmIsManual={alarmIsManual}
+            setAlarmIsManual={setAlarmIsManual}
+            alarmValues={alarmValues}
+            setAlarmValues={setAlarmValues}
           />
         </Tabs.Panel>
         <Tabs.Panel>

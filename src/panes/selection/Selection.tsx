@@ -3,11 +3,23 @@ import { fetchWellData } from "../../api/fetchData";
 import { IWell } from "../../models/IWell";
 import { WellList } from "./WellList";
 import styled from "styled-components";
+import { Alarm } from "./Alarm";
 
 export const Selection: React.FC<{
-  selectedWell: string;
-  setSelectedWell: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ selectedWell, setSelectedWell }) => {
+  selectedWellId: string;
+  setSelectedWellId: React.Dispatch<React.SetStateAction<string>>;
+  alarmIsManual: boolean;
+  setAlarmIsManual: React.Dispatch<React.SetStateAction<boolean>>;
+  alarmValues: number[];
+  setAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
+}> = ({
+  selectedWellId,
+  setSelectedWellId,
+  alarmIsManual,
+  setAlarmIsManual,
+  setAlarmValues,
+  alarmValues,
+}) => {
   const [wells, setWells] = React.useState([] as IWell[]);
 
   useEffect(() => {
@@ -22,8 +34,15 @@ export const Selection: React.FC<{
     <SelectionWrapper>
       <WellList
         wells={wells}
-        selectedWell={selectedWell}
-        setSelectedWell={setSelectedWell}
+        selectedWellId={selectedWellId}
+        setSelectedWellId={setSelectedWellId}
+      />
+      <Alarm
+        selectedWellId={selectedWellId}
+        alarmIsManual={alarmIsManual}
+        setAlarmIsManual={setAlarmIsManual}
+        alarmValues={alarmValues}
+        setAlarmValues={setAlarmValues}
       />
     </SelectionWrapper>
   );
@@ -32,4 +51,5 @@ export const Selection: React.FC<{
 const SelectionWrapper = styled.section`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-gap: 16px;
 `;
