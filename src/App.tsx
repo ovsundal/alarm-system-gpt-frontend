@@ -7,8 +7,6 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import { Selection } from "./panes/selection/Selection";
-import { Visualization } from "./panes/visualization/Visualization";
 
 function App() {
   return (
@@ -31,8 +29,8 @@ const Routing = () => (
     <Routes>
       <Route path="/" element={<Navigate to="/selection" replace />} />
       <Route path="/" element={<Panes />}>
-        <Route index={true} path="/selection" element={<Selection />}></Route>
-        <Route path="/visualization" element={<Visualization />}></Route>
+        <Route path="/selection" element={null}></Route>
+        <Route path="/visualization" element={null}></Route>
       </Route>
     </Routes>
   </Router>
