@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Panes } from "./panes/Panes";
+import { createGlobalStyle } from "styled-components";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
+import { Selection } from "./panes/selection/Selection";
+import { Visualization } from "./panes/visualization/Visualization";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <GlobalStyles />
+      <Routing />
     </div>
   );
 }
+
+export const GlobalStyles = createGlobalStyle`
+  body {
+    background-color: lightgrey;
+      padding: 20px;
+  }
+`;
+
+const Routing = () => (
+  <Router>
+    <Routes>
+      <Route path="/" element={<Navigate to="/selection" replace />} />
+      <Route path="/" element={<Panes />}>
+        <Route index={true} path="/selection" element={<Selection />}></Route>
+        <Route path="/visualization" element={<Visualization />}></Route>
+      </Route>
+    </Routes>
+  </Router>
+);
 
 export default App;
