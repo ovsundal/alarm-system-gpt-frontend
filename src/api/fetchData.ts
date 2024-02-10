@@ -10,9 +10,19 @@ export const fetchWellData = async () => {
   return response.data as IWell[];
 };
 
-export const fetchWellMeasurements = async (wellId: number) => {
+export const fetchWellMeasurements = async (
+  wellId: number,
+  alarmLower: number | null,
+  alarmUpper: number | null,
+) => {
   const response = await axios.get(
     `http://localhost:8000/api/reservoir/WellMeasurements/${wellId}/`,
+    {
+      params: {
+        lowerAlarm: alarmLower,
+        upperAlarm: alarmUpper,
+      },
+    },
   );
   return response.data as IWellMeasurement[];
 };

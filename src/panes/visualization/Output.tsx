@@ -17,7 +17,7 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
       >
         Outputs
       </Typography>
-      <Chart data={measurementData} />
+      <Chart wellMeasurementData={measurementData} />
     </Card>
   );
 };

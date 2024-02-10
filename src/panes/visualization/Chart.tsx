@@ -12,12 +12,21 @@ import {
 import { IWellMeasurement } from "../../models/IWellMeasurement";
 import styled from "styled-components";
 
-export const Chart: React.FC<{ data: IWellMeasurement[] }> = ({ data }) => {
+export const Chart: React.FC<{ wellMeasurementData: IWellMeasurement[] }> = ({
+  wellMeasurementData,
+}) => {
+  const hasLowerAlarm = wellMeasurementData.some(
+    (measurement) => measurement.alarm_lower_limit != null,
+  );
+  const hasUpperAlarm = wellMeasurementData.some(
+    (measurement) => measurement.alarm_upper_limit != null,
+  );
+  // const hasLowerAlarm = data.some((d) => d.cpi < 0);
   return (
     <ChartWrapper>
-      <ResponsiveContainer>
+      <ResponsiveContainer width={"100%"} height={500}>
         <LineChart
-          data={data}
+          data={wellMeasurementData}
           margin={{
             top: 5,
             right: 30,
@@ -48,6 +57,24 @@ export const Chart: React.FC<{ data: IWellMeasurement[] }> = ({ data }) => {
             stroke="#ffc658"
             activeDot={{ r: 8 }}
           />
+          {hasUpperAlarm && (
+            <Line
+              type="monotone"
+              dataKey="alarm_upper_limit"
+              stroke="red"
+              dot={false}
+              strokeDasharray="5 5"
+            />
+          )}
+          {hasLowerAlarm && (
+            <Line
+              type="monotone"
+              dataKey="alarm_lower_limit"
+              stroke="red"
+              dot={false}
+              strokeDasharray="5 5"
+            />
+          )}
         </LineChart>
       </ResponsiveContainer>
     </ChartWrapper>

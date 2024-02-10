@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@equinor/eds-core-react";
 import Card from "../../shared/Card";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 import { fetchWellMeasurements } from "../../api/fetchData";
 import { NavigateFunction, useNavigate } from "react-router-dom";
@@ -49,11 +49,15 @@ export const Alarm: React.FC<{
             <>
               <Label label=" Set lower and upper envelope limit" />
               <Slider
+                min={0}
+                max={12}
+                step={0.1}
                 value={alarmValues}
                 labelAlwaysOn={true}
-                onChange={() =>
-                  changeAlarmValuesHandler(alarmValues, setAlarmValues)
-                }
+                onChange={(
+                  e: ChangeEvent<HTMLInputElement>,
+                  values: number[],
+                ) => changeAlarmValuesHandler(e, values, setAlarmValues)}
               />
             </>
           )}
@@ -65,6 +69,8 @@ export const Alarm: React.FC<{
               selectedWellId,
               navigate,
               setMeasurementData,
+              alarmIsManual,
+              alarmValues,
             )
           }
         >
@@ -76,16 +82,26 @@ export const Alarm: React.FC<{
 };
 
 const changeAlarmValuesHandler = (
-  value: number[],
+  e: ChangeEvent<HTMLInputElement>,
+  values: number[],
   setAlarmValues: React.Dispatch<React.SetStateAction<number[]>>,
-) => setAlarmValues(value);
+) => setAlarmValues(values);
 
 const SaveAndContinueButtonClickHandler = async (
   selectedWell: string,
   navigate: NavigateFunction,
   setMeasurementData: React.Dispatch<React.SetStateAction<IWellMeasurement[]>>,
+  alarmIsManual: boolean,
+  alarmValues: number[],
 ) => {
-  const result = await fetchWellMeasurements(Number(selectedWell));
+  const wellId = Number(selectedWell);
+  let lowerAlarm: number | null = alarmValues[0];
+  let upperAlarm: number | null = alarmValues[1];
+  if (!alarmIsManual) {
+    lowerAlarm = null;
+    upperAlarm = null;
+  }
+  const result = await fetchWellMeasurements(wellId, lowerAlarm, upperAlarm);
   setMeasurementData(result);
   navigate("/visualization", { replace: true });
 };

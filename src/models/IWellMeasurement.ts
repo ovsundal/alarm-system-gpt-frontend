@@ -16,4 +16,6 @@ export interface IWellMeasurement {
   pressure_std: string;
   derivative_std: string;
   well_id: number;
+  alarm_lower_limit: number | null;
+  alarm_upper_limit: number | null;
 }
