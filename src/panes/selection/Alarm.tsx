@@ -10,6 +10,7 @@ import React from "react";
 import styled from "styled-components";
 import { fetchWellMeasurements } from "../../api/fetchData";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { IWellMeasurement } from "../../models/IWellMeasurement";
 
 export const Alarm: React.FC<{
   selectedWellId: string;
@@ -17,12 +18,14 @@ export const Alarm: React.FC<{
   setAlarmIsManual: React.Dispatch<React.SetStateAction<boolean>>;
   alarmValues: number[];
   setAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
+  setMeasurementData: React.Dispatch<React.SetStateAction<IWellMeasurement[]>>;
 }> = ({
   selectedWellId,
   setAlarmIsManual,
   alarmIsManual,
   setAlarmValues,
   alarmValues,
+  setMeasurementData,
 }) => {
   const navigate = useNavigate();
   return (
@@ -58,7 +61,11 @@ export const Alarm: React.FC<{
         <Button
           disabled={!selectedWellId}
           onClick={() =>
-            SaveAndContinueButtonClickHandler(selectedWellId, navigate)
+            SaveAndContinueButtonClickHandler(
+              selectedWellId,
+              navigate,
+              setMeasurementData,
+            )
           }
         >
           Save and continue
@@ -76,10 +83,11 @@ const changeAlarmValuesHandler = (
 const SaveAndContinueButtonClickHandler = async (
   selectedWell: string,
   navigate: NavigateFunction,
+  setMeasurementData: React.Dispatch<React.SetStateAction<IWellMeasurement[]>>,
 ) => {
   const result = await fetchWellMeasurements(Number(selectedWell));
-
-  navigate("/visualization", { replace: true, state: { result } });
+  setMeasurementData(result);
+  navigate("/visualization", { replace: true });
 };
 
 const SwitchAndSliderWrapper = styled.div`

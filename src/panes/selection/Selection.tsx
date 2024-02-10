@@ -4,6 +4,7 @@ import { IWell } from "../../models/IWell";
 import { WellList } from "./WellList";
 import styled from "styled-components";
 import { Alarm } from "./Alarm";
+import { IWellMeasurement } from "../../models/IWellMeasurement";
 
 export const Selection: React.FC<{
   selectedWellId: string;
@@ -12,6 +13,7 @@ export const Selection: React.FC<{
   setAlarmIsManual: React.Dispatch<React.SetStateAction<boolean>>;
   alarmValues: number[];
   setAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
+  setMeasurementData: React.Dispatch<React.SetStateAction<IWellMeasurement[]>>;
 }> = ({
   selectedWellId,
   setSelectedWellId,
@@ -19,6 +21,7 @@ export const Selection: React.FC<{
   setAlarmIsManual,
   setAlarmValues,
   alarmValues,
+  setMeasurementData,
 }) => {
   const [wells, setWells] = React.useState([] as IWell[]);
 
@@ -43,6 +46,7 @@ export const Selection: React.FC<{
         setAlarmIsManual={setAlarmIsManual}
         alarmValues={alarmValues}
         setAlarmValues={setAlarmValues}
+        setMeasurementData={setMeasurementData}
       />
     </SelectionWrapper>
   );

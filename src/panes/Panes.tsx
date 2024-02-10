@@ -3,12 +3,16 @@ import React, { useEffect, useState } from "react";
 import { Selection } from "./selection/Selection";
 import { Visualization } from "./visualization/Visualization";
 import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
+import { IWellMeasurement } from "../models/IWellMeasurement";
 
 export const Panes = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedWellId, setSelectedWellId] = useState("");
   const [alarmIsManual, setAlarmIsManual] = useState(false);
   const [alarmValues, setAlarmValues] = useState([30, 70]);
+  const [measurementData, setMeasurementData] = useState(
+    [] as IWellMeasurement[],
+  );
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
@@ -33,10 +37,11 @@ export const Panes = () => {
             setAlarmIsManual={setAlarmIsManual}
             alarmValues={alarmValues}
             setAlarmValues={setAlarmValues}
+            setMeasurementData={setMeasurementData}
           />
         </Tabs.Panel>
         <Tabs.Panel>
-          <Visualization />
+          <Visualization measurementData={measurementData} />
         </Tabs.Panel>
       </Tabs.Panels>
     </Tabs>
