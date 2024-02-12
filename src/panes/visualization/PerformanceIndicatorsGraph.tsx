@@ -12,16 +12,15 @@ import {
 import { IWellMeasurement } from "../../models/IWellMeasurement";
 import styled from "styled-components";
 
-export const Chart: React.FC<{ wellMeasurementData: IWellMeasurement[] }> = ({
-  wellMeasurementData,
-}) => {
+export const PerformanceIndicatorsGraph: React.FC<{
+  wellMeasurementData: IWellMeasurement[];
+}> = ({ wellMeasurementData }) => {
   const hasLowerAlarm = wellMeasurementData.some(
     (measurement) => measurement.alarm_lower_limit != null,
   );
   const hasUpperAlarm = wellMeasurementData.some(
     (measurement) => measurement.alarm_upper_limit != null,
   );
-  // const hasLowerAlarm = data.some((d) => d.cpi < 0);
   return (
     <ChartWrapper>
       <ResponsiveContainer width={"100%"} height={500}>
@@ -35,7 +34,12 @@ export const Chart: React.FC<{ wellMeasurementData: IWellMeasurement[] }> = ({
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="start_timestamp" />
+          <XAxis
+            dataKey="time_passed_hr"
+            label={"Time, hr"}
+            height={75}
+            ticks={generateTicks(wellMeasurementData, 10)}
+          />
           <YAxis />
           <Tooltip />
           <Legend />
@@ -79,6 +83,15 @@ export const Chart: React.FC<{ wellMeasurementData: IWellMeasurement[] }> = ({
       </ResponsiveContainer>
     </ChartWrapper>
   );
+};
+
+const generateTicks = (data: IWellMeasurement[], numTicks: number) => {
+  const tickSpacing = Math.ceil(data.length / numTicks);
+  const ticks = [];
+  for (let i = 0; i < data.length; i += tickSpacing) {
+    ticks.push(data[i].time_passed_hr);
+  }
+  return ticks;
 };
 
 const ChartWrapper = styled.div`

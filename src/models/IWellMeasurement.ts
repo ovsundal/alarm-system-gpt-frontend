@@ -18,4 +18,5 @@ export interface IWellMeasurement {
   well_id: number;
   alarm_lower_limit: number | null;
   alarm_upper_limit: number | null;
+  time_passed_hr: number;
 }
