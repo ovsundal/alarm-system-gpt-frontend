@@ -40,26 +40,29 @@ export const PerformanceIndicatorsGraph: React.FC<{
             height={75}
             ticks={generateTicks(wellMeasurementData, 10)}
           />
-          <YAxis />
+          <YAxis domain={[0, 14]} />
           <Tooltip />
           <Legend />
           <Line
             type="monotone"
             dataKey="cpi"
-            stroke="#8884d8"
+            stroke="#F68A04"
             activeDot={{ r: 8 }}
+            strokeWidth={2}
           />
           <Line
             type="monotone"
             dataKey="rpi"
-            stroke="#82ca9d"
+            stroke="#0B7DC6"
             activeDot={{ r: 8 }}
+            strokeWidth={2}
           />
           <Line
             type="monotone"
             dataKey="wpi"
-            stroke="#ffc658"
+            stroke="#22A322"
             activeDot={{ r: 8 }}
+            strokeWidth={2}
           />
           {hasUpperAlarm && (
             <Line
