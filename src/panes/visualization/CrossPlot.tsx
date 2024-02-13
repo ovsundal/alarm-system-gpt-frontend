@@ -28,11 +28,11 @@ export const CrossPlot: React.FC<{
   let orderedWellMeasurementData: IWellMeasurement[];
 
   if (xAxisDimension === "T_58hr") {
-    orderedWellMeasurementData = wellMeasurementData.sort(
+    orderedWellMeasurementData = [...wellMeasurementData].sort(
       (a, b) => Number(a.T_58hr) - Number(b.T_58hr),
     );
   } else {
-    orderedWellMeasurementData = wellMeasurementData.sort(
+    orderedWellMeasurementData = [...wellMeasurementData].sort(
       (a, b) => Number(a.P_58hr) - Number(b.P_58hr),
     );
   }
