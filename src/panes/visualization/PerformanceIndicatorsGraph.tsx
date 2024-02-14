@@ -40,7 +40,7 @@ export const PerformanceIndicatorsGraph: React.FC<{
             height={75}
             ticks={generateTicks(wellMeasurementData, 10)}
           />
-          <YAxis domain={[0, 14]} />
+          <YAxis />
           <Tooltip />
           <Legend />
           <Line
@@ -92,7 +92,7 @@ const generateTicks = (data: IWellMeasurement[], numTicks: number) => {
   const tickSpacing = Math.ceil(data.length / numTicks);
   const ticks = [];
   for (let i = 0; i < data.length; i += tickSpacing) {
-    ticks.push(data[i].time_passed_hr);
+    ticks.push(data[i].start_time);
   }
   return ticks;
 };

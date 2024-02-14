@@ -9,7 +9,7 @@ export const Panes = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedWellId, setSelectedWellId] = useState("");
   const [alarmIsManual, setAlarmIsManual] = useState(false);
-  const [alarmValues, setAlarmValues] = useState([1, 6]);
+  const [alarmValues, setAlarmValues] = useState([0.4, 2]);
   const [measurementData, setMeasurementData] = useState(
     [] as IWellMeasurement[],
   );

@@ -1,22 +1,12 @@
 export interface IWellMeasurement {
-  start_timestamp: string;
-  end_timestamp: string;
-  duration_hr: string;
-  reference_rate: string;
-  q: string;
-  P_26hr: string;
-  T_26hr: string;
-  P_58hr: string;
-  T_58hr: string;
-  wpi: string;
-  rpi: string;
-  cpi: string;
-  is_shutin: string;
-  is_prev_shutin: string;
-  pressure_std: string;
-  derivative_std: string;
+  start_time: number;
+  reference_rate: number;
+  pressure: number;
+  temperature: number;
+  wpi: number;
+  rpi: number;
+  cpi: number;
   well_id: number;
   alarm_lower_limit: number | null;
   alarm_upper_limit: number | null;
-  time_passed_hr: number;
 }

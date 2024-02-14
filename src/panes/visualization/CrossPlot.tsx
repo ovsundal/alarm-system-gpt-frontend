@@ -22,18 +22,18 @@ export const CrossPlot: React.FC<{
   const colorScale = d3
     .scaleSequential()
     .domain(
-      extent(wellMeasurementData, (d) => d.time_passed_hr) as [number, number],
+      extent(wellMeasurementData, (d) => d.start_time) as [number, number],
     )
     .interpolator(interpolateTurbo);
   let orderedWellMeasurementData: IWellMeasurement[];
 
-  if (xAxisDimension === "T_58hr") {
+  if (xAxisDimension === "temperature") {
     orderedWellMeasurementData = [...wellMeasurementData].sort(
-      (a, b) => Number(a.T_58hr) - Number(b.T_58hr),
+      (a, b) => Number(a.temperature) - Number(b.temperature),
     );
   } else {
     orderedWellMeasurementData = [...wellMeasurementData].sort(
-      (a, b) => Number(a.P_58hr) - Number(b.P_58hr),
+      (a, b) => Number(a.pressure) - Number(b.pressure),
     );
   }
   return (
@@ -57,10 +57,7 @@ export const CrossPlot: React.FC<{
             data={orderedWellMeasurementData}
           >
             {orderedWellMeasurementData.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={colorScale(entry.time_passed_hr)}
-              />
+              <Cell key={`cell-${index}`} fill={colorScale(entry.start_time)} />
             ))}
           </Scatter>
         </ScatterChart>

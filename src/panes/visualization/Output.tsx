@@ -38,11 +38,11 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
             <CrossPlotWrapper>
               <CrossPlot
                 wellMeasurementData={measurementData}
-                xAxisDimension={"T_58hr"}
+                xAxisDimension={"temperature"}
               />
               <CrossPlot
                 wellMeasurementData={measurementData}
-                xAxisDimension={"P_58hr"}
+                xAxisDimension={"pressure"}
               />
             </CrossPlotWrapper>
           </Tabs.Panel>
