@@ -23,7 +23,10 @@ type AlarmArea = {
 
 export const PerformanceIndicatorsGraph: React.FC<{
   wellMeasurementData: IWellMeasurement[];
-}> = ({ wellMeasurementData }) => {
+  showAlarms: boolean;
+  showTrends: boolean;
+  showPis: boolean;
+}> = ({ wellMeasurementData, showAlarms, showTrends, showPis }) => {
   const hasLowerAlarm = wellMeasurementData.some(
     (measurement) => measurement.alarm_lower_limit != null,
   );
@@ -48,6 +51,7 @@ export const PerformanceIndicatorsGraph: React.FC<{
   );
 
   const alarmData = [...rpiAlarmData, ...cpiAlarmData, ...wpiAlarmData];
+
   return (
     <ChartWrapper>
       <ResponsiveContainer width={"100%"} height={500}>
@@ -65,64 +69,80 @@ export const PerformanceIndicatorsGraph: React.FC<{
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line
-            type="monotone"
-            dataKey="cpi"
-            stroke="#F68A04"
-            activeDot={{ r: 8 }}
-            strokeWidth={2}
-          />
-          <Line
-            type="monotone"
-            dataKey="rpi"
-            stroke="#0B7DC6"
-            activeDot={{ r: 8 }}
-            strokeWidth={2}
-          />
-          <Line
-            type="monotone"
-            dataKey="wpi"
-            stroke="#22A322"
-            activeDot={{ r: 8 }}
-            strokeWidth={2}
-          />
-          {/*alarm lines*/}
-          {hasUpperAlarm && (
-            <Line
-              type="monotone"
-              dataKey="alarm_upper_limit"
-              stroke="red"
-              dot={false}
-              strokeDasharray="5 5"
-            />
-          )}
-          {hasLowerAlarm && (
-            <Line
-              type="monotone"
-              dataKey="alarm_lower_limit"
-              stroke="red"
-              dot={false}
-              strokeDasharray="5 5"
-            />
-          )}
-          {alarmData.map(({ x1, x2, y1, y2, color }, index) => (
-            <ReferenceArea
-              key={index}
-              x1={x1}
-              x2={x2}
-              y1={y1}
-              y2={y2}
-              fill={color}
-              fillOpacity={0.2}
-            />
-          ))}
+          {showPis && renderPerformanceIndicators()}
+          {showAlarms &&
+            renderAlarmLines(hasUpperAlarm, hasLowerAlarm, alarmData)}
 
-          {bestFitLines()}
+          {showTrends && bestFitLines()}
         </LineChart>
       </ResponsiveContainer>
     </ChartWrapper>
   );
 };
+
+const renderPerformanceIndicators = () => (
+  <>
+    <Line
+      type="monotone"
+      dataKey="cpi"
+      stroke="#F68A04"
+      activeDot={{ r: 8 }}
+      strokeWidth={2}
+    />
+    <Line
+      type="monotone"
+      dataKey="rpi"
+      stroke="#0B7DC6"
+      activeDot={{ r: 8 }}
+      strokeWidth={2}
+    />
+    <Line
+      type="monotone"
+      dataKey="wpi"
+      stroke="#22A322"
+      activeDot={{ r: 8 }}
+      strokeWidth={2}
+    />
+  </>
+);
+
+const renderAlarmLines = (
+  hasUpperAlarm: boolean,
+  hasLowerAlarm: boolean,
+  alarmData: AlarmArea[],
+) => (
+  <>
+    {hasUpperAlarm && (
+      <Line
+        type="monotone"
+        dataKey="alarm_upper_limit"
+        stroke="red"
+        dot={false}
+        strokeDasharray="5 5"
+      />
+    )}
+    {hasLowerAlarm && (
+      <Line
+        type="monotone"
+        dataKey="alarm_lower_limit"
+        stroke="red"
+        dot={false}
+        strokeDasharray="5 5"
+      />
+    )}
+    {alarmData.map(({ x1, x2, y1, y2, color }, index) => (
+      <ReferenceArea
+        key={index}
+        x1={x1}
+        x2={x2}
+        y1={y1}
+        y2={y2}
+        fill={color}
+        fillOpacity={0.2}
+      />
+    ))}
+  </>
+);
 
 const bestFitLines = () => (
   <>

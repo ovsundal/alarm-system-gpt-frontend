@@ -1,6 +1,6 @@
 import Card from "../../shared/Card";
 import React, { useState } from "react";
-import { Tabs, Typography } from "@equinor/eds-core-react";
+import { Switch, Tabs, Typography } from "@equinor/eds-core-react";
 import { IWellMeasurement } from "../../models/IWellMeasurement";
 import { PerformanceIndicatorsGraph } from "./PerformanceIndicatorsGraph";
 import { CrossPlot } from "./CrossPlot";
@@ -10,9 +10,13 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
   measurementData,
 }) => {
   const [activeTab, setActiveTab] = useState(1);
+  const [showAlarms, setShowAlarms] = useState(true);
+  const [showTrends, setShowTrends] = useState(true);
+  const [showPis, setShowPis] = useState(true);
   const handleChange = (index: number) => {
     setActiveTab(index);
   };
+  console.log(showAlarms);
   return (
     <Card>
       <Typography
@@ -32,7 +36,27 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
         <Tabs.Panels>
           <Tabs.Panel>Panel one</Tabs.Panel>
           <Tabs.Panel>
-            <PerformanceIndicatorsGraph wellMeasurementData={measurementData} />
+            <Switch
+              defaultChecked={true}
+              label={"Show PIs"}
+              onChange={() => setShowPis((prevState) => !prevState)}
+            />
+            <Switch
+              defaultChecked={true}
+              label={"Show alarms"}
+              onChange={() => setShowAlarms((prevState) => !prevState)}
+            />
+            <Switch
+              defaultChecked={true}
+              label={"Show trends"}
+              onChange={() => setShowTrends((prevState) => !prevState)}
+            />
+            <PerformanceIndicatorsGraph
+              wellMeasurementData={measurementData}
+              showAlarms={showAlarms}
+              showTrends={showTrends}
+              showPis={showPis}
+            />
           </Tabs.Panel>
           <Tabs.Panel>
             <CrossPlotWrapper>
