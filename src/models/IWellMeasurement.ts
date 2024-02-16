@@ -9,4 +9,7 @@ export interface IWellMeasurement {
   well_id: number;
   alarm_lower_limit: number | null;
   alarm_upper_limit: number | null;
+  wpi_trend: number[]; // slope, y-intercept
+  rpi_trend: number[]; // slope, y-intercept
+  cpi_trend: number[]; // slope, y-intercept
 }

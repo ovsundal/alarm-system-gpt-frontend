@@ -13,7 +13,7 @@ import {
 import { IWellMeasurement } from "../../models/IWellMeasurement";
 import styled from "styled-components";
 
-type alarmArea = {
+type AlarmArea = {
   x1: number;
   x2: number;
   y1: number;
@@ -86,6 +86,7 @@ export const PerformanceIndicatorsGraph: React.FC<{
             activeDot={{ r: 8 }}
             strokeWidth={2}
           />
+          {/*alarm lines*/}
           {hasUpperAlarm && (
             <Line
               type="monotone"
@@ -115,11 +116,39 @@ export const PerformanceIndicatorsGraph: React.FC<{
               fillOpacity={0.2}
             />
           ))}
+
+          {bestFitLines()}
         </LineChart>
       </ResponsiveContainer>
     </ChartWrapper>
   );
 };
+
+const bestFitLines = () => (
+  <>
+    <Line
+      type="monotone"
+      dataKey={"wpi_trend"}
+      stroke="#22A322"
+      dot={false}
+      strokeDasharray="5 5"
+    />
+    <Line
+      type="monotone"
+      dataKey={"rpi_trend"}
+      stroke="#0B7DC6"
+      dot={false}
+      strokeDasharray="5 5"
+    />
+    <Line
+      type="monotone"
+      dataKey={"cpi_trend"}
+      stroke="#F68A04"
+      dot={false}
+      strokeDasharray="5 5"
+    />
+  </>
+);
 
 const createAlarmArea = (
   dataPoint: IWellMeasurement,
@@ -127,7 +156,7 @@ const createAlarmArea = (
   alarmColor: string,
   x1: number,
   x2: number,
-): alarmArea | null => {
+): AlarmArea | null => {
   if (dataPoint[performanceIndicator]! > dataPoint.alarm_upper_limit!) {
     return {
       y1: dataPoint.alarm_upper_limit!,
@@ -135,7 +164,7 @@ const createAlarmArea = (
       x1,
       x2,
       color: alarmColor,
-    };
+    } as AlarmArea;
   }
 
   if (dataPoint[performanceIndicator]! < dataPoint.alarm_lower_limit!) {
@@ -145,7 +174,7 @@ const createAlarmArea = (
       x1,
       x2,
       color: alarmColor,
-    };
+    } as AlarmArea;
   }
 
   return null;
@@ -164,7 +193,7 @@ const findIndicatorOutsideOfAlarmRanges = (
     return [];
   }
 
-  const alarmAreas = [] as alarmArea[];
+  const alarmAreas = [] as AlarmArea[];
 
   data.forEach((dataPoint, index) => {
     const x1 =
