@@ -16,7 +16,6 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
   const handleChange = (index: number) => {
     setActiveTab(index);
   };
-  console.log(showAlarms);
   return (
     <Card>
       <Typography
