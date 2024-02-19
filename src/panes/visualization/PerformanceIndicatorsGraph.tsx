@@ -29,30 +29,38 @@ type AlarmArea = {
 export const PerformanceIndicatorsGraph: React.FC<{
   wellMeasurementData: IWellMeasurement[];
   showRpiAlarms: boolean;
+  showWpiAlarms: boolean;
+  showCpiAlarms: boolean;
   showTrends: boolean;
   showPis: boolean;
-}> = ({ wellMeasurementData, showRpiAlarms, showTrends, showPis }) => {
-  const hasLowerAlarm = wellMeasurementData.some(
-    (measurement) => measurement.rpi_alarm_lower_limit != null,
-  );
-  const hasUpperAlarm = wellMeasurementData.some(
-    (measurement) => measurement.rpi_alarm_upper_limit != null,
-  );
-
+}> = ({
+  wellMeasurementData,
+  showRpiAlarms,
+  showTrends,
+  showPis,
+  showWpiAlarms,
+  showCpiAlarms,
+}) => {
   const rpiAlarmData = findIndicatorOutsideOfAlarmRanges(
     wellMeasurementData,
     "rpi",
-    "#0B7DC6",
+    RPI_GRAPH_COLOR,
+    "rpi_alarm_lower_limit",
+    "rpi_alarm_upper_limit",
   );
   const cpiAlarmData = findIndicatorOutsideOfAlarmRanges(
     wellMeasurementData,
     "cpi",
-    "#F68A04",
+    CPI_GRAPH_COLOR,
+    "cpi_alarm_lower_limit",
+    "cpi_alarm_upper_limit",
   );
   const wpiAlarmData = findIndicatorOutsideOfAlarmRanges(
     wellMeasurementData,
     "wpi",
-    "#22A322",
+    WPI_GRAPH_COLOR,
+    "wpi_alarm_lower_limit",
+    "wpi_alarm_upper_limit",
   );
 
   const alarmData = [...rpiAlarmData, ...cpiAlarmData, ...wpiAlarmData];
@@ -76,7 +84,26 @@ export const PerformanceIndicatorsGraph: React.FC<{
           <Legend />
           {showPis && renderPerformanceIndicators()}
           {showRpiAlarms &&
-            renderAlarmLines(hasUpperAlarm, hasLowerAlarm, alarmData)}
+            renderAlarmLines(
+              alarmData,
+              "rpi_alarm_lower_limit",
+              "rpi_alarm_upper_limit",
+              RPI_GRAPH_COLOR,
+            )}
+          {showCpiAlarms &&
+            renderAlarmLines(
+              alarmData,
+              "cpi_alarm_lower_limit",
+              "cpi_alarm_upper_limit",
+              CPI_GRAPH_COLOR,
+            )}
+          {showWpiAlarms &&
+            renderAlarmLines(
+              alarmData,
+              "wpi_alarm_lower_limit",
+              "wpi_alarm_upper_limit",
+              WPI_GRAPH_COLOR,
+            )}
 
           {showTrends && bestFitLines()}
         </LineChart>
@@ -112,29 +139,32 @@ const renderPerformanceIndicators = () => (
 );
 
 const renderAlarmLines = (
-  hasUpperAlarm: boolean,
-  hasLowerAlarm: boolean,
   alarmData: AlarmArea[],
+  dataKeyLowerLimit: string,
+  dataKeyUpperLimit: string,
+  color: string,
 ) => (
   <>
-    {hasUpperAlarm && (
+    {
       <Line
         type="monotone"
-        dataKey="rpi_alarm_lower_limit"
-        stroke={RPI_GRAPH_COLOR}
+        // dataKey="rpi_alarm_lower_limit"
+        dataKey={dataKeyLowerLimit}
+        stroke={color}
         dot={false}
         strokeDasharray="5 5"
       />
-    )}
-    {hasLowerAlarm && (
+    }
+    {
       <Line
         type="monotone"
-        dataKey="rpi_alarm_upper_limit"
-        stroke={RPI_GRAPH_COLOR}
+        // dataKey="rpi_alarm_upper_limit"
+        dataKey={dataKeyUpperLimit}
+        stroke={color}
         dot={false}
         strokeDasharray="5 5"
       />
-    )}
+    }
     {alarmData.map(({ x1, x2, y1, y2, color }, index) => (
       <ReferenceArea
         key={index}
@@ -209,11 +239,13 @@ const findIndicatorOutsideOfAlarmRanges = (
   data: IWellMeasurement[],
   performanceIndicator: keyof IWellMeasurement,
   alarmColor: string,
+  dataKeyLowerAlarm: string,
+  dataKeyUpperAlarm: string,
 ) => {
   if (
     data.length === 0 ||
-    data[0].rpi_alarm_lower_limit == null ||
-    data[0].rpi_alarm_upper_limit == null
+    data[0][dataKeyLowerAlarm as keyof IWellMeasurement] == null ||
+    data[0][dataKeyUpperAlarm as keyof IWellMeasurement] == null
   ) {
     return [];
   }

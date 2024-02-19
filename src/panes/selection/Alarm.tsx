@@ -11,7 +11,11 @@ import styled from "styled-components";
 import { fetchWellMeasurements } from "../../api/fetchData";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { IWellMeasurement } from "../../models/IWellMeasurement";
-import { RPI_DEFAULT_ALARM_VALUES } from "../../shared/constants";
+import {
+  CPI_DEFAULT_ALARM_VALUES,
+  RPI_DEFAULT_ALARM_VALUES,
+  WPI_DEFAULT_ALARM_VALUES,
+} from "../../shared/constants";
 
 export const Alarm: React.FC<{
   selectedWellId: string;
@@ -47,7 +51,7 @@ export const Alarm: React.FC<{
               marginBottom: "16px",
             }}
           >
-            Alarm
+            Set alarm ranges
           </Typography>
           <Switch
             onChange={() => setAlarmIsManual((prevState) => !prevState)}
@@ -55,20 +59,50 @@ export const Alarm: React.FC<{
             label={alarmIsManual ? "Manual" : "Automatic"}
           />
           {alarmIsManual && (
-            <>
-              <Label label="RPI alarm values" />
-              <Slider
-                min={0}
-                max={12}
-                step={0.1}
-                value={rpiAlarmValues}
-                labelAlwaysOn={true}
-                onChange={(
-                  e: ChangeEvent<HTMLInputElement>,
-                  values: number[],
-                ) => changeAlarmValuesHandler(e, values, setRpiAlarmValues)}
-              />
-            </>
+            <AlarmSliderWrapper>
+              <div>
+                <Label label="RPI" />
+                <Slider
+                  min={0}
+                  max={6}
+                  step={0.1}
+                  value={rpiAlarmValues}
+                  labelAlwaysOn={true}
+                  onChange={(
+                    e: ChangeEvent<HTMLInputElement>,
+                    values: number[],
+                  ) => changeAlarmValuesHandler(e, values, setRpiAlarmValues)}
+                />
+              </div>
+              <div>
+                <Label label="CPI" />
+                <Slider
+                  min={0}
+                  max={6}
+                  step={0.1}
+                  value={cpiAlarmValues}
+                  labelAlwaysOn={true}
+                  onChange={(
+                    e: ChangeEvent<HTMLInputElement>,
+                    values: number[],
+                  ) => changeAlarmValuesHandler(e, values, setCpiAlarmValues)}
+                />
+              </div>
+              <div>
+                <Label label="WPI" />
+                <Slider
+                  min={0}
+                  max={6}
+                  step={0.1}
+                  value={wpiAlarmValues}
+                  labelAlwaysOn={true}
+                  onChange={(
+                    e: ChangeEvent<HTMLInputElement>,
+                    values: number[],
+                  ) => changeAlarmValuesHandler(e, values, setWpiAlarmValues)}
+                />
+              </div>
+            </AlarmSliderWrapper>
           )}
         </SwitchAndSliderWrapper>
         <Button
@@ -80,6 +114,8 @@ export const Alarm: React.FC<{
               setMeasurementData,
               alarmIsManual,
               rpiAlarmValues,
+              cpiAlarmValues,
+              wpiAlarmValues,
             )
           }
         >
@@ -102,21 +138,30 @@ const SaveAndContinueButtonClickHandler = async (
   setMeasurementData: React.Dispatch<React.SetStateAction<IWellMeasurement[]>>,
   alarmIsManual: boolean,
   rpiAlarmValues: number[],
+  cpiAlarmValues: number[],
+  wpiAlarmValues: number[],
 ) => {
   const wellId = Number(selectedWell);
   let [rpiLower, rpiUpper] = RPI_DEFAULT_ALARM_VALUES;
+  let [wpiLower, wpiUpper] = WPI_DEFAULT_ALARM_VALUES;
+  let [cpiLower, cpiUpper] = CPI_DEFAULT_ALARM_VALUES;
+
   if (alarmIsManual) {
     rpiLower = rpiAlarmValues[0];
     rpiUpper = rpiAlarmValues[1];
+    cpiLower = cpiAlarmValues[0];
+    cpiUpper = cpiAlarmValues[1];
+    wpiLower = wpiAlarmValues[0];
+    wpiUpper = wpiAlarmValues[1];
   }
   const result = await fetchWellMeasurements(
     wellId,
     rpiLower,
     rpiUpper,
-    1,
-    2,
-    3,
-    4,
+    cpiLower,
+    cpiUpper,
+    wpiLower,
+    wpiUpper,
   );
   setMeasurementData(result);
   navigate("/visualization", { replace: true });
@@ -135,5 +180,15 @@ const AlarmWrapper = styled.section`
 
   & > :last-child {
     margin-left: auto;
+  }
+`;
+
+const AlarmSliderWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  div > label {
+    justify-content: center;
   }
 `;
