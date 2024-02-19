@@ -12,15 +12,23 @@ export const fetchWellData = async () => {
 
 export const fetchWellMeasurements = async (
   wellId: number,
-  alarmLower: number | null,
-  alarmUpper: number | null,
+  rpiLowerAlarm: number | null,
+  rpiUpperAlarm: number | null,
+  cpiLowerAlarm: number | null,
+  cpiUpperAlarm: number | null,
+  wpiLowerAlarm: number | null,
+  wpiUpperAlarm: number | null,
 ) => {
   const response = await axios.get(
     `http://localhost:8000/api/reservoir/WellMeasurements/${wellId}/`,
     {
       params: {
-        lowerAlarm: alarmLower,
-        upperAlarm: alarmUpper,
+        rpiLowerAlarm,
+        rpiUpperAlarm,
+        cpiLowerAlarm,
+        cpiUpperAlarm,
+        wpiLowerAlarm,
+        wpiUpperAlarm,
       },
     },
   );

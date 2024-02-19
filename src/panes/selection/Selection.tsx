@@ -11,16 +11,24 @@ export const Selection: React.FC<{
   setSelectedWellId: React.Dispatch<React.SetStateAction<string>>;
   alarmIsManual: boolean;
   setAlarmIsManual: React.Dispatch<React.SetStateAction<boolean>>;
-  alarmValues: number[];
-  setAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
+  rpiAlarmValues: number[];
+  setRpiAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
+  cpiAlarmValues: number[];
+  setCpiAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
+  wpiAlarmValues: number[];
+  setWpiAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
   setMeasurementData: React.Dispatch<React.SetStateAction<IWellMeasurement[]>>;
 }> = ({
   selectedWellId,
   setSelectedWellId,
   alarmIsManual,
   setAlarmIsManual,
-  setAlarmValues,
-  alarmValues,
+  rpiAlarmValues,
+  setRpiAlarmValues,
+  cpiAlarmValues,
+  setCpiAlarmValues,
+  wpiAlarmValues,
+  setWpiAlarmValues,
   setMeasurementData,
 }) => {
   const [wells, setWells] = React.useState([] as IWell[]);
@@ -44,9 +52,13 @@ export const Selection: React.FC<{
         selectedWellId={selectedWellId}
         alarmIsManual={alarmIsManual}
         setAlarmIsManual={setAlarmIsManual}
-        alarmValues={alarmValues}
-        setAlarmValues={setAlarmValues}
         setMeasurementData={setMeasurementData}
+        rpiAlarmValues={rpiAlarmValues}
+        setRpiAlarmValues={setRpiAlarmValues}
+        cpiAlarmValues={cpiAlarmValues}
+        setCpiAlarmValues={setCpiAlarmValues}
+        wpiAlarmValues={wpiAlarmValues}
+        setWpiAlarmValues={setWpiAlarmValues}
       />
     </SelectionWrapper>
   );

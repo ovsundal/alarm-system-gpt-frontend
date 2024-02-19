@@ -11,21 +11,30 @@ import styled from "styled-components";
 import { fetchWellMeasurements } from "../../api/fetchData";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { IWellMeasurement } from "../../models/IWellMeasurement";
+import { RPI_DEFAULT_ALARM_VALUES } from "../../shared/constants";
 
 export const Alarm: React.FC<{
   selectedWellId: string;
   alarmIsManual: boolean;
   setAlarmIsManual: React.Dispatch<React.SetStateAction<boolean>>;
-  alarmValues: number[];
-  setAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
   setMeasurementData: React.Dispatch<React.SetStateAction<IWellMeasurement[]>>;
+  rpiAlarmValues: number[];
+  setRpiAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
+  cpiAlarmValues: number[];
+  setCpiAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
+  wpiAlarmValues: number[];
+  setWpiAlarmValues: React.Dispatch<React.SetStateAction<number[]>>;
 }> = ({
   selectedWellId,
   setAlarmIsManual,
   alarmIsManual,
-  setAlarmValues,
-  alarmValues,
   setMeasurementData,
+  rpiAlarmValues,
+  setCpiAlarmValues,
+  setRpiAlarmValues,
+  wpiAlarmValues,
+  setWpiAlarmValues,
+  cpiAlarmValues,
 }) => {
   const navigate = useNavigate();
   return (
@@ -47,17 +56,17 @@ export const Alarm: React.FC<{
           />
           {alarmIsManual && (
             <>
-              <Label label=" Set lower and upper envelope limit" />
+              <Label label="RPI alarm values" />
               <Slider
                 min={0}
                 max={12}
                 step={0.1}
-                value={alarmValues}
+                value={rpiAlarmValues}
                 labelAlwaysOn={true}
                 onChange={(
                   e: ChangeEvent<HTMLInputElement>,
                   values: number[],
-                ) => changeAlarmValuesHandler(e, values, setAlarmValues)}
+                ) => changeAlarmValuesHandler(e, values, setRpiAlarmValues)}
               />
             </>
           )}
@@ -70,7 +79,7 @@ export const Alarm: React.FC<{
               navigate,
               setMeasurementData,
               alarmIsManual,
-              alarmValues,
+              rpiAlarmValues,
             )
           }
         >
@@ -92,16 +101,23 @@ const SaveAndContinueButtonClickHandler = async (
   navigate: NavigateFunction,
   setMeasurementData: React.Dispatch<React.SetStateAction<IWellMeasurement[]>>,
   alarmIsManual: boolean,
-  alarmValues: number[],
+  rpiAlarmValues: number[],
 ) => {
   const wellId = Number(selectedWell);
-  let lowerAlarm: number | null = alarmValues[0];
-  let upperAlarm: number | null = alarmValues[1];
-  if (!alarmIsManual) {
-    lowerAlarm = null;
-    upperAlarm = null;
+  let [rpiLower, rpiUpper] = RPI_DEFAULT_ALARM_VALUES;
+  if (alarmIsManual) {
+    rpiLower = rpiAlarmValues[0];
+    rpiUpper = rpiAlarmValues[1];
   }
-  const result = await fetchWellMeasurements(wellId, lowerAlarm, upperAlarm);
+  const result = await fetchWellMeasurements(
+    wellId,
+    rpiLower,
+    rpiUpper,
+    1,
+    2,
+    3,
+    4,
+  );
   setMeasurementData(result);
   navigate("/visualization", { replace: true });
 };

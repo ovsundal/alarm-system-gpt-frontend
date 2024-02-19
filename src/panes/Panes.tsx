@@ -4,12 +4,25 @@ import { Selection } from "./selection/Selection";
 import { Visualization } from "./visualization/Visualization";
 import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { IWellMeasurement } from "../models/IWellMeasurement";
+import {
+  CPI_DEFAULT_ALARM_VALUES,
+  RPI_DEFAULT_ALARM_VALUES,
+  WPI_DEFAULT_ALARM_VALUES,
+} from "../shared/constants";
 
 export const Panes = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedWellId, setSelectedWellId] = useState("");
   const [alarmIsManual, setAlarmIsManual] = useState(false);
-  const [alarmValues, setAlarmValues] = useState([0.4, 2]);
+  const [rpiAlarmValues, setRpiAlarmValues] = useState(
+    RPI_DEFAULT_ALARM_VALUES,
+  );
+  const [cpiAlarmValues, setCpiAlarmValues] = useState(
+    CPI_DEFAULT_ALARM_VALUES,
+  );
+  const [wpiAlarmValues, setWpiAlarmValues] = useState(
+    WPI_DEFAULT_ALARM_VALUES,
+  );
   const [measurementData, setMeasurementData] = useState(
     [] as IWellMeasurement[],
   );
@@ -35,9 +48,13 @@ export const Panes = () => {
             setSelectedWellId={setSelectedWellId}
             alarmIsManual={alarmIsManual}
             setAlarmIsManual={setAlarmIsManual}
-            alarmValues={alarmValues}
-            setAlarmValues={setAlarmValues}
             setMeasurementData={setMeasurementData}
+            rpiAlarmValues={rpiAlarmValues}
+            setRpiAlarmValues={setRpiAlarmValues}
+            cpiAlarmValues={cpiAlarmValues}
+            setCpiAlarmValues={setCpiAlarmValues}
+            wpiAlarmValues={wpiAlarmValues}
+            setWpiAlarmValues={setWpiAlarmValues}
           />
         </Tabs.Panel>
         <Tabs.Panel>

@@ -12,6 +12,11 @@ import {
 } from "recharts";
 import { IWellMeasurement } from "../../models/IWellMeasurement";
 import styled from "styled-components";
+import {
+  CPI_GRAPH_COLOR,
+  RPI_GRAPH_COLOR,
+  WPI_GRAPH_COLOR,
+} from "../../shared/constants";
 
 type AlarmArea = {
   x1: number;
@@ -23,15 +28,15 @@ type AlarmArea = {
 
 export const PerformanceIndicatorsGraph: React.FC<{
   wellMeasurementData: IWellMeasurement[];
-  showAlarms: boolean;
+  showRpiAlarms: boolean;
   showTrends: boolean;
   showPis: boolean;
-}> = ({ wellMeasurementData, showAlarms, showTrends, showPis }) => {
+}> = ({ wellMeasurementData, showRpiAlarms, showTrends, showPis }) => {
   const hasLowerAlarm = wellMeasurementData.some(
-    (measurement) => measurement.alarm_lower_limit != null,
+    (measurement) => measurement.rpi_alarm_lower_limit != null,
   );
   const hasUpperAlarm = wellMeasurementData.some(
-    (measurement) => measurement.alarm_upper_limit != null,
+    (measurement) => measurement.rpi_alarm_upper_limit != null,
   );
 
   const rpiAlarmData = findIndicatorOutsideOfAlarmRanges(
@@ -70,7 +75,7 @@ export const PerformanceIndicatorsGraph: React.FC<{
           <Tooltip />
           <Legend />
           {showPis && renderPerformanceIndicators()}
-          {showAlarms &&
+          {showRpiAlarms &&
             renderAlarmLines(hasUpperAlarm, hasLowerAlarm, alarmData)}
 
           {showTrends && bestFitLines()}
@@ -85,21 +90,21 @@ const renderPerformanceIndicators = () => (
     <Line
       type="monotone"
       dataKey="cpi"
-      stroke="#F68A04"
+      stroke={CPI_GRAPH_COLOR}
       activeDot={{ r: 8 }}
       strokeWidth={2}
     />
     <Line
       type="monotone"
       dataKey="rpi"
-      stroke="#0B7DC6"
+      stroke={RPI_GRAPH_COLOR}
       activeDot={{ r: 8 }}
       strokeWidth={2}
     />
     <Line
       type="monotone"
       dataKey="wpi"
-      stroke="#22A322"
+      stroke={WPI_GRAPH_COLOR}
       activeDot={{ r: 8 }}
       strokeWidth={2}
     />
@@ -115,8 +120,8 @@ const renderAlarmLines = (
     {hasUpperAlarm && (
       <Line
         type="monotone"
-        dataKey="alarm_upper_limit"
-        stroke="red"
+        dataKey="rpi_alarm_lower_limit"
+        stroke={RPI_GRAPH_COLOR}
         dot={false}
         strokeDasharray="5 5"
       />
@@ -124,8 +129,8 @@ const renderAlarmLines = (
     {hasLowerAlarm && (
       <Line
         type="monotone"
-        dataKey="alarm_lower_limit"
-        stroke="red"
+        dataKey="rpi_alarm_upper_limit"
+        stroke={RPI_GRAPH_COLOR}
         dot={false}
         strokeDasharray="5 5"
       />
@@ -177,9 +182,9 @@ const createAlarmArea = (
   x1: number,
   x2: number,
 ): AlarmArea | null => {
-  if (dataPoint[performanceIndicator]! > dataPoint.alarm_upper_limit!) {
+  if (dataPoint[performanceIndicator]! > dataPoint.rpi_alarm_upper_limit!) {
     return {
-      y1: dataPoint.alarm_upper_limit!,
+      y1: dataPoint.rpi_alarm_upper_limit!,
       y2: dataPoint[performanceIndicator]!,
       x1,
       x2,
@@ -187,10 +192,10 @@ const createAlarmArea = (
     } as AlarmArea;
   }
 
-  if (dataPoint[performanceIndicator]! < dataPoint.alarm_lower_limit!) {
+  if (dataPoint[performanceIndicator]! < dataPoint.rpi_alarm_lower_limit!) {
     return {
       y1: dataPoint[performanceIndicator]!,
-      y2: dataPoint.alarm_lower_limit!,
+      y2: dataPoint.rpi_alarm_lower_limit!,
       x1,
       x2,
       color: alarmColor,
@@ -207,8 +212,8 @@ const findIndicatorOutsideOfAlarmRanges = (
 ) => {
   if (
     data.length === 0 ||
-    data[0].alarm_lower_limit == null ||
-    data[0].alarm_upper_limit == null
+    data[0].rpi_alarm_lower_limit == null ||
+    data[0].rpi_alarm_upper_limit == null
   ) {
     return [];
   }

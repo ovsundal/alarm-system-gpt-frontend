@@ -10,7 +10,7 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
   measurementData,
 }) => {
   const [activeTab, setActiveTab] = useState(1);
-  const [showAlarms, setShowAlarms] = useState(true);
+  const [showRpiAlarms, setShowRpiAlarms] = useState(true);
   const [showTrends, setShowTrends] = useState(true);
   const [showPis, setShowPis] = useState(true);
   const handleChange = (index: number) => {
@@ -42,8 +42,8 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
             />
             <Switch
               defaultChecked={true}
-              label={"Show alarms"}
-              onChange={() => setShowAlarms((prevState) => !prevState)}
+              label={"RPI alarms"}
+              onChange={() => setShowRpiAlarms((prevState) => !prevState)}
             />
             <Switch
               defaultChecked={true}
@@ -52,7 +52,7 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
             />
             <PerformanceIndicatorsGraph
               wellMeasurementData={measurementData}
-              showAlarms={showAlarms}
+              showRpiAlarms={showRpiAlarms}
               showTrends={showTrends}
               showPis={showPis}
             />
