@@ -63,8 +63,6 @@ export const PerformanceIndicatorsGraph: React.FC<{
     "wpi_alarm_upper_limit",
   );
 
-  const alarmData = [...rpiAlarmData, ...cpiAlarmData, ...wpiAlarmData];
-
   return (
     <ChartWrapper>
       <ResponsiveContainer width={"100%"} height={500}>
@@ -85,21 +83,21 @@ export const PerformanceIndicatorsGraph: React.FC<{
           {showPis && renderPerformanceIndicators()}
           {showRpiAlarms &&
             renderAlarmLines(
-              alarmData,
+              rpiAlarmData,
               "rpi_alarm_lower_limit",
               "rpi_alarm_upper_limit",
               RPI_GRAPH_COLOR,
             )}
           {showCpiAlarms &&
             renderAlarmLines(
-              alarmData,
+              cpiAlarmData,
               "cpi_alarm_lower_limit",
               "cpi_alarm_upper_limit",
               CPI_GRAPH_COLOR,
             )}
           {showWpiAlarms &&
             renderAlarmLines(
-              alarmData,
+              wpiAlarmData,
               "wpi_alarm_lower_limit",
               "wpi_alarm_upper_limit",
               WPI_GRAPH_COLOR,
@@ -148,7 +146,6 @@ const renderAlarmLines = (
     {
       <Line
         type="monotone"
-        // dataKey="rpi_alarm_lower_limit"
         dataKey={dataKeyLowerLimit}
         stroke={color}
         dot={false}
@@ -158,7 +155,6 @@ const renderAlarmLines = (
     {
       <Line
         type="monotone"
-        // dataKey="rpi_alarm_upper_limit"
         dataKey={dataKeyUpperLimit}
         stroke={color}
         dot={false}
@@ -167,7 +163,7 @@ const renderAlarmLines = (
     }
     {alarmData.map(({ x1, x2, y1, y2, color }, index) => (
       <ReferenceArea
-        key={index}
+        key={color + index}
         x1={x1}
         x2={x2}
         y1={y1}
@@ -186,21 +182,21 @@ const bestFitLines = () => (
       dataKey={"wpi_trend"}
       stroke="#22A322"
       dot={false}
-      strokeDasharray="5 5"
+      strokeDasharray="2"
     />
     <Line
       type="monotone"
       dataKey={"rpi_trend"}
       stroke="#0B7DC6"
       dot={false}
-      strokeDasharray="5 5"
+      strokeDasharray="2"
     />
     <Line
       type="monotone"
       dataKey={"cpi_trend"}
       stroke="#F68A04"
       dot={false}
-      strokeDasharray="5 5"
+      strokeDasharray="2"
     />
   </>
 );
