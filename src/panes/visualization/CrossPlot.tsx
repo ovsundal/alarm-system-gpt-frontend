@@ -19,22 +19,28 @@ export const CrossPlot: React.FC<{
   wellMeasurementData: IWellMeasurement[];
   xAxisDimension: string;
 }> = ({ wellMeasurementData, xAxisDimension }) => {
+  const wellMeasurementDataWithoutPredictions = wellMeasurementData.filter(
+    (dataPoint) => dataPoint.rpi != null,
+  );
   const colorScale = d3
     .scaleSequential()
     .domain(
-      extent(wellMeasurementData, (d) => d.start_time) as [number, number],
+      extent(wellMeasurementDataWithoutPredictions, (d) => d.start_time) as [
+        number,
+        number,
+      ],
     )
     .interpolator(interpolateTurbo);
   let orderedWellMeasurementData: IWellMeasurement[];
 
   if (xAxisDimension === "temperature") {
-    orderedWellMeasurementData = [...wellMeasurementData].sort(
-      (a, b) => Number(a.temperature) - Number(b.temperature),
-    );
+    orderedWellMeasurementData = [
+      ...wellMeasurementDataWithoutPredictions,
+    ].sort((a, b) => Number(a.temperature) - Number(b.temperature));
   } else {
-    orderedWellMeasurementData = [...wellMeasurementData].sort(
-      (a, b) => Number(a.pressure) - Number(b.pressure),
-    );
+    orderedWellMeasurementData = [
+      ...wellMeasurementDataWithoutPredictions,
+    ].sort((a, b) => Number(a.pressure) - Number(b.pressure));
   }
   return (
     <ChartWrapper>
