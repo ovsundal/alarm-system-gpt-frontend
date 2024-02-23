@@ -42,19 +42,19 @@ export const PerformanceIndicatorsGraph: React.FC<{
   showWpiAlarms,
   showCpiAlarms,
 }) => {
-  const rpiAlarmData = findIndicatorOutsideOfAlarmRanges(
-    wellMeasurementData,
-    "rpi",
-    RPI_GRAPH_COLOR,
-    "rpi_alarm_lower_limit",
-    "rpi_alarm_upper_limit",
-  );
   const cpiAlarmData = findIndicatorOutsideOfAlarmRanges(
     wellMeasurementData,
     "cpi",
     CPI_GRAPH_COLOR,
     "cpi_alarm_lower_limit",
     "cpi_alarm_upper_limit",
+  );
+  const rpiAlarmData = findIndicatorOutsideOfAlarmRanges(
+    wellMeasurementData,
+    "rpi",
+    RPI_GRAPH_COLOR,
+    "rpi_alarm_lower_limit",
+    "rpi_alarm_upper_limit",
   );
   const wpiAlarmData = findIndicatorOutsideOfAlarmRanges(
     wellMeasurementData,
@@ -82,25 +82,25 @@ export const PerformanceIndicatorsGraph: React.FC<{
             label={"Time, hr"}
             height={75}
             scale={"linear"}
-            ticks={generateTicks(0, 104215, 10000)}
+            ticks={generateTicks(0, 114215, 10000)}
           />
           <YAxis />
           <Tooltip />
-          <Legend />
+          <Legend content={<CustomLegend />} />
           {showPis && renderPerformanceIndicators()}
-          {showRpiAlarms &&
-            renderAlarmLines(
-              rpiAlarmData,
-              "rpi_alarm_lower_limit",
-              "rpi_alarm_upper_limit",
-              RPI_GRAPH_COLOR,
-            )}
           {showCpiAlarms &&
             renderAlarmLines(
               cpiAlarmData,
               "cpi_alarm_lower_limit",
               "cpi_alarm_upper_limit",
               CPI_GRAPH_COLOR,
+            )}
+          {showRpiAlarms &&
+            renderAlarmLines(
+              rpiAlarmData,
+              "rpi_alarm_lower_limit",
+              "rpi_alarm_upper_limit",
+              RPI_GRAPH_COLOR,
             )}
           {showWpiAlarms &&
             renderAlarmLines(
@@ -114,6 +114,40 @@ export const PerformanceIndicatorsGraph: React.FC<{
         </LineChart>
       </ResponsiveContainer>
     </ChartWrapper>
+  );
+};
+
+const CustomLegend = () => {
+  const dataToShowInLegend = [
+    { name: "cpi", color: CPI_GRAPH_COLOR, type: "solid" },
+    { name: "cpi_trend", color: CPI_GRAPH_COLOR, type: "dashed" },
+    { name: "rpi", color: RPI_GRAPH_COLOR, type: "solid" },
+    { name: "rpi_trend", color: RPI_GRAPH_COLOR, type: "dashed" },
+    { name: "wpi", color: WPI_GRAPH_COLOR, type: "solid" },
+    { name: "wpi_trend", color: WPI_GRAPH_COLOR, type: "dashed" },
+  ];
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "10px",
+      }}
+    >
+      {dataToShowInLegend.map((entry, index) => (
+        <div key={index} style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              marginRight: "5px",
+              borderStyle: `${entry.type}`,
+              borderColor: `${entry.color}`,
+              width: "20px",
+            }}
+          />
+          <span style={{ color: entry.color }}>{entry.name}</span>
+        </div>
+      ))}
+    </div>
   );
 };
 
@@ -227,6 +261,11 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
       />
       <ReferenceArea x1={8860} x2={8870} y1={0.5} y2={1.9} stroke="black">
         <Label
+          value={`R² cpi: ${wellMeasurements[0].cpi_r_squared_1![0]}`}
+          position="insideBottomRight"
+          stroke={"black"}
+        />
+        <Label
           value={`R² rpi: ${wellMeasurements[0].rpi_r_squared_1![0]}`}
           position="insideTopRight"
           stroke={"black"}
@@ -234,11 +273,6 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
         <Label
           value={`R² wpi: ${wellMeasurements[0].wpi_r_squared_1![0]}`}
           position="insideRight"
-          stroke={"black"}
-        />
-        <Label
-          value={`R² cpi: ${wellMeasurements[0].cpi_r_squared_1![0]}`}
-          position="insideBottomRight"
           stroke={"black"}
         />
       </ReferenceArea>
@@ -274,6 +308,11 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
       />
       <ReferenceArea x1={37876} x2={37886} y1={0.65} y2={2.15} stroke="black">
         <Label
+          value={`R² cpi: ${wellMeasurements[4].cpi_r_squared_2![0]}`}
+          position="insideBottomRight"
+          stroke={"black"}
+        />
+        <Label
           value={`R² rpi: ${wellMeasurements[4].rpi_r_squared_2![0]}`}
           position="insideTopRight"
           stroke={"black"}
@@ -281,11 +320,6 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
         <Label
           value={`R² wpi: ${wellMeasurements[4].wpi_r_squared_2![0]}`}
           position="insideRight"
-          stroke={"black"}
-        />
-        <Label
-          value={`R² cpi: ${wellMeasurements[4].cpi_r_squared_2![0]}`}
-          position="insideBottomRight"
           stroke={"black"}
         />
       </ReferenceArea>
