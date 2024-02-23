@@ -86,7 +86,15 @@ export const PerformanceIndicatorsGraph: React.FC<{
           />
           <YAxis />
           <Tooltip />
-          <Legend content={<CustomLegend />} />
+          <Legend
+            content={
+              <CustomLegend
+                showRpiAlarms={showRpiAlarms}
+                showWpiAlarms={showWpiAlarms}
+                showCpiAlarms={showCpiAlarms}
+              />
+            }
+          />
           {showPis && renderPerformanceIndicators()}
           {showCpiAlarms &&
             renderAlarmLines(
@@ -117,8 +125,16 @@ export const PerformanceIndicatorsGraph: React.FC<{
   );
 };
 
-const CustomLegend = () => {
-  const dataToShowInLegend = [
+const CustomLegend = ({
+  showRpiAlarms,
+  showWpiAlarms,
+  showCpiAlarms,
+}: {
+  showRpiAlarms: boolean;
+  showWpiAlarms: boolean;
+  showCpiAlarms: boolean;
+}) => {
+  let dataToShowInLegend = [
     { name: "cpi", color: CPI_GRAPH_COLOR, type: "solid" },
     { name: "cpi_trend", color: CPI_GRAPH_COLOR, type: "dashed" },
     { name: "rpi", color: RPI_GRAPH_COLOR, type: "solid" },
@@ -126,6 +142,36 @@ const CustomLegend = () => {
     { name: "wpi", color: WPI_GRAPH_COLOR, type: "solid" },
     { name: "wpi_trend", color: WPI_GRAPH_COLOR, type: "dashed" },
   ];
+  if (showCpiAlarms) {
+    dataToShowInLegend = [
+      ...dataToShowInLegend,
+      {
+        name: "cpi_alarm",
+        color: CPI_GRAPH_COLOR,
+        type: "dotted",
+      },
+    ];
+  }
+  if (showRpiAlarms) {
+    dataToShowInLegend = [
+      ...dataToShowInLegend,
+      {
+        name: "rpi_alarm",
+        color: RPI_GRAPH_COLOR,
+        type: "dotted",
+      },
+    ];
+  }
+  if (showWpiAlarms) {
+    dataToShowInLegend = [
+      ...dataToShowInLegend,
+      {
+        name: "wpi_alarm",
+        color: WPI_GRAPH_COLOR,
+        type: "dotted",
+      },
+    ];
+  }
   return (
     <div
       style={{
@@ -190,39 +236,42 @@ const renderAlarmLines = (
   dataKeyLowerLimit: string,
   dataKeyUpperLimit: string,
   color: string,
-) => (
-  <>
-    {
-      <Line
-        type="monotone"
-        dataKey={dataKeyLowerLimit}
-        stroke={color}
-        dot={false}
-        strokeDasharray="5 5"
-      />
-    }
-    {
-      <Line
-        type="monotone"
-        dataKey={dataKeyUpperLimit}
-        stroke={color}
-        dot={false}
-        strokeDasharray="5 5"
-      />
-    }
-    {alarmData.map(({ x1, x2, y1, y2, color }, index) => (
-      <ReferenceArea
-        key={color + index}
-        x1={x1}
-        x2={x2}
-        y1={y1}
-        y2={y2}
-        fill={color}
-        fillOpacity={0.2}
-      />
-    ))}
-  </>
-);
+) => {
+  const strokeDashArray = "1 2";
+  return (
+    <>
+      {
+        <Line
+          type="monotone"
+          dataKey={dataKeyLowerLimit}
+          stroke={color}
+          dot={false}
+          strokeDasharray={strokeDashArray}
+        />
+      }
+      {
+        <Line
+          type="monotone"
+          dataKey={dataKeyUpperLimit}
+          stroke={color}
+          dot={false}
+          strokeDasharray={strokeDashArray}
+        />
+      }
+      {alarmData.map(({ x1, x2, y1, y2, color }, index) => (
+        <ReferenceArea
+          key={color + index}
+          x1={x1}
+          x2={x2}
+          y1={y1}
+          y2={y2}
+          fill={color}
+          fillOpacity={0.2}
+        />
+      ))}
+    </>
+  );
+};
 
 const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
   const strokeWidth = 4;
