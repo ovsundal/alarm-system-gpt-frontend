@@ -56,8 +56,16 @@ export const CrossPlot: React.FC<{
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey={xAxisDimension} label={xAxisDimension} height={75} />
-          <YAxis dataKey={"rpi"} label={"RPI"} />
-          <Tooltip />
+          <YAxis
+            dataKey={"rpi"}
+            label={{
+              value: "RPI",
+              angle: -90,
+              position: "insideLeft",
+              dy: 15,
+            }}
+          />
+          <Tooltip content={<CustomTooltip />} />
           <Scatter
             name={`RPI vs ${xAxisDimension}`}
             data={orderedWellMeasurementData}

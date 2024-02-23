@@ -84,7 +84,15 @@ export const PerformanceIndicatorsGraph: React.FC<{
             scale={"linear"}
             ticks={generateTicks(0, 114215, 10000)}
           />
-          <YAxis />
+          <YAxis
+            dataKey={"rpi"}
+            label={{
+              value: "Relative metric, unit",
+              angle: -90,
+              position: "insideLeft",
+              dy: 50,
+            }}
+          />
           <Tooltip />
           <Legend
             content={
