@@ -208,6 +208,16 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
       <Line
         type="monotone"
         dataKey={(data) =>
+          data.cpi_slope_1 * data.start_time + data.cpi_intercept_1
+        }
+        stroke={CPI_GRAPH_COLOR}
+        dot={false}
+        strokeWidth={strokeWidth}
+        strokeDasharray={strokeDashArray}
+      />
+      <Line
+        type="monotone"
+        dataKey={(data) =>
           data.rpi_slope_1 * data.start_time + data.rpi_intercept_1
         }
         stroke={RPI_GRAPH_COLOR}
@@ -215,14 +225,19 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
         strokeWidth={strokeWidth}
         strokeDasharray={strokeDashArray}
       />
-      <ReferenceArea x1={8860} x2={8870} y1={0.85} y2={1.9} stroke="black">
+      <ReferenceArea x1={8860} x2={8870} y1={0.5} y2={1.9} stroke="black">
         <Label
           value={`R² rpi: ${wellMeasurements[0].rpi_r_squared_1![0]}`}
-          position="insideRight"
+          position="insideTopRight"
           stroke={"black"}
         />
         <Label
           value={`R² wpi: ${wellMeasurements[0].wpi_r_squared_1![0]}`}
+          position="insideRight"
+          stroke={"black"}
+        />
+        <Label
+          value={`R² cpi: ${wellMeasurements[0].cpi_r_squared_1![0]}`}
           position="insideBottomRight"
           stroke={"black"}
         />
@@ -240,6 +255,16 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
       <Line
         type="monotone"
         dataKey={(data) =>
+          data.cpi_slope_2 * data.start_time + data.cpi_intercept_2
+        }
+        stroke={CPI_GRAPH_COLOR}
+        dot={false}
+        strokeWidth={strokeWidth}
+        strokeDasharray={strokeDashArray}
+      />
+      <Line
+        type="monotone"
+        dataKey={(data) =>
           data.rpi_slope_2 * data.start_time + data.rpi_intercept_2
         }
         stroke={RPI_GRAPH_COLOR}
@@ -247,7 +272,7 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
         strokeWidth={strokeWidth}
         strokeDasharray={strokeDashArray}
       />
-      <ReferenceArea x1={37876} x2={37886} y1={1.6} y2={2.15} stroke="black">
+      <ReferenceArea x1={37876} x2={37886} y1={0.65} y2={2.15} stroke="black">
         <Label
           value={`R² rpi: ${wellMeasurements[4].rpi_r_squared_2![0]}`}
           position="insideTopRight"
@@ -255,6 +280,11 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
         />
         <Label
           value={`R² wpi: ${wellMeasurements[4].wpi_r_squared_2![0]}`}
+          position="insideRight"
+          stroke={"black"}
+        />
+        <Label
+          value={`R² cpi: ${wellMeasurements[4].cpi_r_squared_2![0]}`}
           position="insideBottomRight"
           stroke={"black"}
         />
@@ -272,6 +302,16 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
       <Line
         type="monotone"
         dataKey={(data) =>
+          data.cpi_slope_3 * data.start_time + data.cpi_intercept_3
+        }
+        stroke={CPI_GRAPH_COLOR}
+        dot={false}
+        strokeWidth={strokeWidth}
+        strokeDasharray={strokeDashArray}
+      />
+      <Line
+        type="monotone"
+        dataKey={(data) =>
           data.rpi_slope_3 * data.start_time + data.rpi_intercept_3
         }
         stroke={RPI_GRAPH_COLOR}
@@ -279,7 +319,7 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
         strokeWidth={strokeWidth}
         strokeDasharray={strokeDashArray}
       />
-      <ReferenceArea x1={67760} x2={67770} y1={0.85} y2={1.45} stroke="black">
+      <ReferenceArea x1={67760} x2={67770} y1={0.7} y2={1.45} stroke="black">
         <Label
           value={`R² rpi: ${wellMeasurements[11].rpi_r_squared_3![0]}`}
           position="insideTopRight"
@@ -291,12 +331,22 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
           stroke={"black"}
         />
         <Label
+          value={`R² cpi: ${wellMeasurements[11].cpi_r_squared_3![0]}`}
+          position="insideBottomRight"
+          stroke={"black"}
+        />
+        <Label
           value={`R² rpi: ${wellMeasurements[16].rpi_r_squared_4![0]}`}
-          position="insideLeft"
+          position="insideTopLeft"
           stroke={"black"}
         />
         <Label
           value={`R² wpi: ${wellMeasurements[16].wpi_r_squared_4![0]}`}
+          position="insideLeft"
+          stroke={"black"}
+        />
+        <Label
+          value={`R² cpi: ${wellMeasurements[16].cpi_r_squared_4![0]}`}
           position="insideBottomLeft"
           stroke={"black"}
         />
@@ -307,6 +357,16 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
           data.wpi_slope_4 * data.start_time + data.wpi_intercept_4
         }
         stroke={WPI_GRAPH_COLOR}
+        dot={false}
+        strokeWidth={strokeWidth}
+        strokeDasharray={strokeDashArray}
+      />
+      <Line
+        type="monotone"
+        dataKey={(data) =>
+          data.cpi_slope_4 * data.start_time + data.cpi_intercept_4
+        }
+        stroke={CPI_GRAPH_COLOR}
         dot={false}
         strokeWidth={strokeWidth}
         strokeDasharray={strokeDashArray}

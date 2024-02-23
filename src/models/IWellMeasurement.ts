@@ -20,6 +20,9 @@ export interface IWellMeasurement {
   wpi_slope_1: number | undefined;
   wpi_intercept_1: number | undefined;
   wpi_r_squared_1: number[] | undefined;
+  cpi_slope_1: number | undefined;
+  cpi_intercept_1: number | undefined;
+  cpi_r_squared_1: number[] | undefined;
   rpi_slope_1: number | undefined;
   rpi_intercept_1: number | undefined;
   rpi_r_squared_1: number[] | undefined;
@@ -27,6 +30,9 @@ export interface IWellMeasurement {
   wpi_slope_2: number | undefined;
   wpi_intercept_2: number | undefined;
   wpi_r_squared_2: number[] | undefined;
+  cpi_slope_2: number | undefined;
+  cpi_intercept_2: number | undefined;
+  cpi_r_squared_2: number[] | undefined;
   rpi_slope_2: number | undefined;
   rpi_intercept_2: number | undefined;
   rpi_r_squared_2: number[] | undefined;
@@ -34,6 +40,9 @@ export interface IWellMeasurement {
   wpi_slope_3: number | undefined;
   wpi_intercept_3: number | undefined;
   wpi_r_squared_3: number[] | undefined;
+  cpi_slope_3: number | undefined;
+  cpi_intercept_3: number | undefined;
+  cpi_r_squared_3: number[] | undefined;
   rpi_slope_3: number | undefined;
   rpi_intercept_3: number | undefined;
   rpi_r_squared_3: number[] | undefined;
@@ -41,6 +50,9 @@ export interface IWellMeasurement {
   wpi_slope_4: number | undefined;
   wpi_intercept_4: number | undefined;
   wpi_r_squared_4: number[] | undefined;
+  cpi_slope_4: number | undefined;
+  cpi_intercept_4: number | undefined;
+  cpi_r_squared_4: number[] | undefined;
   rpi_slope_4: number | undefined;
   rpi_intercept_4: number | undefined;
   rpi_r_squared_4: number[] | undefined;
