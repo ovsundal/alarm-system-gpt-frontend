@@ -10,9 +10,9 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
   measurementData,
 }) => {
   const [activeTab, setActiveTab] = useState(1);
-  const [showRpiAlarms, setShowRpiAlarms] = useState(true);
-  const [showCpiAlarms, setShowCpiAlarms] = useState(true);
-  const [showWpiAlarms, setShowWpiAlarms] = useState(true);
+  const [showRpiAlarms, setShowRpiAlarms] = useState(false);
+  const [showCpiAlarms, setShowCpiAlarms] = useState(false);
+  const [showWpiAlarms, setShowWpiAlarms] = useState(false);
   const [showTrends, setShowTrends] = useState(true);
   const [showPis, setShowPis] = useState(true);
   const handleChange = (index: number) => {
@@ -43,17 +43,17 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
               onChange={() => setShowPis((prevState) => !prevState)}
             />
             <Switch
-              defaultChecked={true}
+              defaultChecked={false}
               label={"RPI alarms"}
               onChange={() => setShowRpiAlarms((prevState) => !prevState)}
             />
             <Switch
-              defaultChecked={true}
+              defaultChecked={false}
               label={"CPI alarms"}
               onChange={() => setShowCpiAlarms((prevState) => !prevState)}
             />
             <Switch
-              defaultChecked={true}
+              defaultChecked={false}
               label={"WPI alarms"}
               onChange={() => setShowWpiAlarms((prevState) => !prevState)}
             />

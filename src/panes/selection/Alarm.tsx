@@ -63,7 +63,6 @@ export const Alarm: React.FC<{
               <div>
                 <Label label="RPI" />
                 <Slider
-                  defaultChecked={false}
                   min={0}
                   max={6}
                   step={0.1}
@@ -93,7 +92,6 @@ export const Alarm: React.FC<{
               <div>
                 <Label label="WPI" />
                 <Slider
-                  defaultChecked={false}
                   min={0}
                   max={6}
                   step={0.1}
