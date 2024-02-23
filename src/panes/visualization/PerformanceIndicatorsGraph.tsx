@@ -474,8 +474,10 @@ const createAlarmArea = (
   alarmColor: string,
   x1: number,
   x2: number,
+  dataKeyLowerLimit: keyof IWellMeasurement,
+  dataKeyUpperLimit: keyof IWellMeasurement,
 ): AlarmArea | null => {
-  if (dataPoint[performanceIndicator]! > dataPoint.rpi_alarm_upper_limit!) {
+  if (dataPoint[performanceIndicator]! > dataPoint[dataKeyUpperLimit]!) {
     return {
       y1: dataPoint.rpi_alarm_upper_limit!,
       y2: dataPoint[performanceIndicator]!,
@@ -485,7 +487,7 @@ const createAlarmArea = (
     } as AlarmArea;
   }
 
-  if (dataPoint[performanceIndicator]! < dataPoint.rpi_alarm_lower_limit!) {
+  if (dataPoint[performanceIndicator]! < dataPoint[dataKeyLowerLimit]!) {
     return {
       y1: dataPoint[performanceIndicator]!,
       y2: dataPoint.rpi_alarm_lower_limit!,
@@ -502,8 +504,8 @@ const findIndicatorOutsideOfAlarmRanges = (
   data: IWellMeasurement[],
   performanceIndicator: keyof IWellMeasurement,
   alarmColor: string,
-  dataKeyLowerAlarm: string,
-  dataKeyUpperAlarm: string,
+  dataKeyLowerAlarm: keyof IWellMeasurement,
+  dataKeyUpperAlarm: keyof IWellMeasurement,
 ) => {
   if (
     data.length === 0 ||
@@ -529,6 +531,8 @@ const findIndicatorOutsideOfAlarmRanges = (
       alarmColor,
       x1,
       x2,
+      dataKeyLowerAlarm,
+      dataKeyUpperAlarm,
     );
 
     if (alarmArea) {

@@ -1,6 +1,6 @@
 import Card from "../../shared/Card";
 import React, { useState } from "react";
-import { Switch, Tabs, Typography } from "@equinor/eds-core-react";
+import { Switch, Tabs } from "@equinor/eds-core-react";
 import { IWellMeasurement } from "../../models/IWellMeasurement";
 import { PerformanceIndicatorsGraph } from "./PerformanceIndicatorsGraph";
 import { CrossPlot } from "./CrossPlot";
@@ -20,14 +20,6 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
   };
   return (
     <Card>
-      <Typography
-        variant="h2"
-        style={{
-          marginBottom: "16px",
-        }}
-      >
-        Outputs
-      </Typography>
       <Tabs activeTab={activeTab} onChange={handleChange}>
         <Tabs.List>
           <Tabs.Tab>Summary</Tabs.Tab>
