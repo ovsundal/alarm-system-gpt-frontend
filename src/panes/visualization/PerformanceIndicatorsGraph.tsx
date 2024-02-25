@@ -349,7 +349,7 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
         strokeWidth={strokeWidth}
         strokeDasharray={strokeDashArray}
       />
-      <ReferenceArea x1={8860} x2={8870} y1={0.5} y2={1.9} stroke="black">
+      <ReferenceArea x1={3052} x2={3062} y1={0.5} y2={1.9} stroke="black">
         <Label
           value={`R² cpi: ${wellMeasurements[0].cpi_r_squared_1![0]}`}
           position="insideBottomRight"

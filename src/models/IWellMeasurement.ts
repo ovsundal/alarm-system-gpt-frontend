@@ -26,6 +26,12 @@ export interface IWellMeasurement {
   rpi_slope_1: number | undefined;
   rpi_intercept_1: number | undefined;
   rpi_r_squared_1: number[] | undefined;
+  temperature_slope_1: number[] | undefined;
+  temperature_intercept_1: number[] | undefined;
+  temperature_r_squared_1: number[] | undefined;
+  pressure_slope_1: number[] | undefined;
+  pressure_intercept_1: number[] | undefined;
+  pressure_r_squared_1: number[] | undefined;
 
   wpi_slope_2: number | undefined;
   wpi_intercept_2: number | undefined;
@@ -36,6 +42,12 @@ export interface IWellMeasurement {
   rpi_slope_2: number | undefined;
   rpi_intercept_2: number | undefined;
   rpi_r_squared_2: number[] | undefined;
+  temperature_slope_2: number[] | undefined;
+  temperature_intercept_2: number[] | undefined;
+  temperature_r_squared_2: number[] | undefined;
+  pressure_slope_2: number[] | undefined;
+  pressure_intercept_2: number[] | undefined;
+  pressure_r_squared_2: number[] | undefined;
 
   wpi_slope_3: number | undefined;
   wpi_intercept_3: number | undefined;
@@ -46,6 +58,12 @@ export interface IWellMeasurement {
   rpi_slope_3: number | undefined;
   rpi_intercept_3: number | undefined;
   rpi_r_squared_3: number[] | undefined;
+  temperature_slope_3: number[] | undefined;
+  temperature_intercept_3: number[] | undefined;
+  temperature_r_squared_3: number[] | undefined;
+  pressure_slope_3: number[] | undefined;
+  pressure_intercept_3: number[] | undefined;
+  pressure_r_squared_3: number[] | undefined;
 
   wpi_slope_4: number | undefined;
   wpi_intercept_4: number | undefined;
@@ -56,4 +74,10 @@ export interface IWellMeasurement {
   rpi_slope_4: number | undefined;
   rpi_intercept_4: number | undefined;
   rpi_r_squared_4: number[] | undefined;
+  temperature_slope_4: number[] | undefined;
+  temperature_intercept_4: number[] | undefined;
+  temperature_r_squared_4: number[] | undefined;
+  pressure_slope_4: number[] | undefined;
+  pressure_intercept_4: number[] | undefined;
+  pressure_r_squared_4: number[] | undefined;
 }
