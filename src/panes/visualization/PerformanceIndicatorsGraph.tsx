@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
   Label,
+  TooltipProps,
 } from "recharts";
 import { IWellMeasurement } from "../../models/IWellMeasurement";
 import styled from "styled-components";
@@ -18,6 +19,10 @@ import {
   RPI_GRAPH_COLOR,
   WPI_GRAPH_COLOR,
 } from "../../shared/constants";
+import {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 
 type AlarmArea = {
   x1: number;
@@ -93,7 +98,7 @@ export const PerformanceIndicatorsGraph: React.FC<{
               dy: 50,
             }}
           />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           <Legend
             content={
               <CustomLegend
@@ -131,6 +136,34 @@ export const PerformanceIndicatorsGraph: React.FC<{
       </ResponsiveContainer>
     </ChartWrapper>
   );
+};
+
+const CustomTooltip = ({
+  active,
+  payload,
+}: TooltipProps<ValueType, NameType>) => {
+  if (active && payload) {
+    return (
+      <div
+        style={{
+          backgroundColor: "#fff",
+          border: "1px solid #999",
+          margin: 0,
+          padding: 10,
+        }}
+      >
+        {payload
+          .filter((entry) => typeof entry.name === "string")
+          .map((entry, index: number) => (
+            <div key={index} style={{ color: entry.color }}>
+              {entry.name}: {entry.value}
+            </div>
+          ))}
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 
 const CustomLegend = ({
