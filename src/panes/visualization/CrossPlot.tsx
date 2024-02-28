@@ -34,7 +34,6 @@ export const CrossPlot: React.FC<{
     )
     .interpolator(interpolateTurbo);
   let orderedWellMeasurementData: IWellMeasurement[];
-  console.log(wellMeasurementData);
   if (xAxisDimension === "temperature") {
     orderedWellMeasurementData = [
       ...wellMeasurementDataWithoutPredictions,
@@ -84,8 +83,9 @@ export const CrossPlot: React.FC<{
               <Cell key={`cell-${index}`} fill={colorScale(entry.start_time)} />
             ))}
           </Scatter>
-          {xAxisDimension === "temperature" &&
-            renderTemperatureCorrelationLines()}
+          {xAxisDimension === "temperature"
+            ? renderTemperatureCorrelationLines()
+            : renderPressureCorrelationLines()}
         </ScatterChart>
       </ResponsiveContainer>
     </ChartWrapper>
@@ -99,6 +99,12 @@ const renderTemperatureCorrelationLines = () => {
   return (
     <>
       <ReferenceLine
+        label={{
+          value: "R²: 0.263",
+          position: "inside",
+          dy: -20,
+          fill: "red",
+        }}
         stroke={"red"}
         segment={[
           { x: 52.4, y: 1.396 },
@@ -108,6 +114,13 @@ const renderTemperatureCorrelationLines = () => {
         strokeWidth={strokeWidth}
       />
       <ReferenceLine
+        label={{
+          value: "R²: 0.759",
+          position: "inside",
+          dy: -30,
+          dx: 10,
+          fill: "green",
+        }}
         stroke={"green"}
         segment={[
           { x: 54.41, y: 1.395 },
@@ -117,15 +130,12 @@ const renderTemperatureCorrelationLines = () => {
         strokeWidth={strokeWidth}
       />
       <ReferenceLine
-        stroke={"green"}
-        segment={[
-          { x: 54.41, y: 1.395 },
-          { x: 66.85, y: 2.096 },
-        ]}
-        strokeDasharray={strokeDashArray}
-        strokeWidth={strokeWidth}
-      />
-      <ReferenceLine
+        label={{
+          value: "R²: 0.017",
+          position: "top",
+          dy: -20,
+          fill: "blue",
+        }}
         stroke={"blue"}
         segment={[
           { x: 52.74, y: 1.686 },
@@ -135,6 +145,12 @@ const renderTemperatureCorrelationLines = () => {
         strokeWidth={strokeWidth}
       />
       <ReferenceLine
+        label={{
+          value: "R²: 0.808",
+          position: "right",
+          dx: -50,
+          fill: "black",
+        }}
         stroke={"black"}
         segment={[
           { x: 60.61, y: 1.128 },
@@ -143,6 +159,88 @@ const renderTemperatureCorrelationLines = () => {
         strokeDasharray={strokeDashArray}
         strokeWidth={strokeWidth}
       />
+    </>
+  );
+};
+
+const renderPressureCorrelationLines = () => {
+  const strokeWidth = 4;
+  const strokeDashArray = "4 4";
+
+  return (
+    <>
+      <ReferenceLine
+        label={{
+          value: "R²: 0.935",
+          position: "right",
+          dx: -50,
+          fill: "black",
+        }}
+        stroke={"black"}
+        segment={[
+          { x: 334.72, y: 1.228 },
+          { x: 364.01, y: 0.59 },
+        ]}
+        strokeDasharray={strokeDashArray}
+        strokeWidth={strokeWidth}
+      />
+      <ReferenceLine
+        label={{
+          value: "R²: 0.002",
+          position: "right",
+          dy: 20,
+          dx: -140,
+          fill: "blue",
+        }}
+        stroke={"blue"}
+        segment={[
+          { x: 323.29, y: 1.701 },
+          { x: 415.7, y: 1.732 },
+        ]}
+        strokeDasharray={strokeDashArray}
+        strokeWidth={strokeWidth}
+      />
+      <ReferenceLine
+        label={{
+          value: "R²: 0.891",
+          position: "center",
+          dy: -30,
+          dx: -10,
+          fill: "green",
+        }}
+        stroke={"green"}
+        segment={[
+          { x: 323.29, y: 2.09 },
+          { x: 398.34, y: 1.29 },
+        ]}
+        strokeDasharray={strokeDashArray}
+        strokeWidth={strokeWidth}
+      />
+      <ReferenceLine
+        label={{
+          value: "R²: 0.211",
+          position: "center",
+          dy: 30,
+          dx: 10,
+          fill: "red",
+        }}
+        stroke={"red"}
+        segment={[
+          { x: 398.34, y: 1.244 },
+          { x: 410.3, y: 1.404 },
+        ]}
+        strokeDasharray={strokeDashArray}
+        strokeWidth={strokeWidth}
+      />
+      {/*<ReferenceLine*/}
+      {/*  stroke={"blue"}*/}
+      {/*  segment={[*/}
+      {/*    { x: 52.74, y: 1.686 },*/}
+      {/*    { x: 60.46, y: 1.738 },*/}
+      {/*  ]}*/}
+      {/*  strokeDasharray={strokeDashArray}*/}
+      {/*  strokeWidth={strokeWidth}*/}
+      {/*/>*/}
     </>
   );
 };
@@ -161,6 +259,9 @@ const CustomTooltip = (props: TooltipProps<number, string>) => {
         <p>{`Trend1_temperature : ${additionalData.payload["temperature_intercept_1"]}`}</p>
         {/* Add more data here */}
         <p>{`Temperature : ${additionalData.payload.temperature}`}</p>
+        <p>{`Pressure : ${additionalData.payload.pressure}`}</p>
+        <p>{`Predicted_temperature_y : ${additionalData.payload.temperature_predicted_rpi}`}</p>
+        <p>{`Predicted_pressure_y : ${additionalData.payload.pressure_predicted_rpi}`}</p>
       </TooltipWrapper>
     );
   }
