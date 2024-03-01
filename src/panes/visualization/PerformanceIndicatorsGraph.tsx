@@ -152,13 +152,18 @@ const CustomTooltip = ({
           padding: 10,
         }}
       >
+        <div>Start Time: {payload[0].payload.start_time} </div>
         {payload
           .filter((entry) => typeof entry.name === "string")
-          .map((entry, index: number) => (
-            <div key={index} style={{ color: entry.color }}>
-              {entry.name}: {entry.value}
-            </div>
-          ))}
+          .map((entry, index: number) => {
+            console.log(entry.payload);
+            console.log(entry.payload.start_time);
+            return (
+              <div key={index} style={{ color: entry.color }}>
+                {entry.name}: {entry.value}
+              </div>
+            );
+          })}
       </div>
     );
   } else {
