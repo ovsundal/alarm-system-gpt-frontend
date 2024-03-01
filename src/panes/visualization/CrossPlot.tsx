@@ -2,6 +2,7 @@ import React from "react";
 import {
   CartesianGrid,
   Cell,
+  Legend,
   ReferenceLine,
   ResponsiveContainer,
   Scatter,
@@ -24,6 +25,12 @@ export const CrossPlot: React.FC<{
   const wellMeasurementDataWithoutPredictions = wellMeasurementData.filter(
     (dataPoint) => dataPoint.rpi != null,
   );
+
+  console.log(
+    wellMeasurementDataWithoutPredictions,
+    (d: any) => d.start_time as [number, number],
+  );
+
   const colorScale = d3
     .scaleSequential()
     .domain(
@@ -86,6 +93,7 @@ export const CrossPlot: React.FC<{
           {xAxisDimension === "temperature"
             ? renderTemperatureCorrelationLines()
             : renderPressureCorrelationLines()}
+          <Legend content={<ColorScaleLegend data={wellMeasurementData} />} />
         </ScatterChart>
       </ResponsiveContainer>
     </ChartWrapper>
@@ -232,18 +240,38 @@ const renderPressureCorrelationLines = () => {
         strokeDasharray={strokeDashArray}
         strokeWidth={strokeWidth}
       />
-      {/*<ReferenceLine*/}
-      {/*  stroke={"blue"}*/}
-      {/*  segment={[*/}
-      {/*    { x: 52.74, y: 1.686 },*/}
-      {/*    { x: 60.46, y: 1.738 },*/}
-      {/*  ]}*/}
-      {/*  strokeDasharray={strokeDashArray}*/}
-      {/*  strokeWidth={strokeWidth}*/}
-      {/*/>*/}
     </>
   );
 };
+
+export const ColorScaleLegend: React.FC<{ data: IWellMeasurement[] }> = ({
+  data,
+}) => {
+  // Calculate the min and max start_time values
+  const [minStartTime, maxStartTime] = extent(data, (d) => d.start_time) as [
+    number,
+    number,
+  ];
+
+  // Normalize a value within a given range
+  const normalize = (value: number, min: number, max: number) =>
+    (value - min) / (max - min);
+
+  // Create the color gradient
+  const colorGradient = data
+    .map((d) =>
+      interpolateTurbo(normalize(d.start_time, minStartTime, maxStartTime)),
+    )
+    .join(",");
+
+  return <LegendWrapper colorGradient={colorGradient} />;
+};
+
+const LegendWrapper = styled.div<{ colorGradient: string }>`
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(to right, ${(props) => props.colorGradient});
+`;
 
 const CustomTooltip = (props: TooltipProps<number, string>) => {
   const { active, payload } = props;
