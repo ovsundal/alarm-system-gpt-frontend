@@ -1,4 +1,3 @@
-import { TooltipProps } from "recharts";
 import React from "react";
 import styled from "styled-components";
 import { interpolateTurbo } from "d3-scale-chromatic";
@@ -33,35 +32,6 @@ const LegendWrapper = styled.div<{ $colorGradient: string }>`
   height: 20px;
   background: linear-gradient(to right, ${(props) => props.$colorGradient});
 `;
-
-const ChartWrapper = styled.div`
-  width: 100%;
-  height: 500px;
-`;
-
-export const CustomTooltip = (props: TooltipProps<number, string>) => {
-  const { active, payload } = props;
-
-  if (active && payload && payload.length) {
-    // const additionalData: Payload<number, string> = payload[0];
-    const additionalData: any = payload[0];
-
-    return (
-      <TooltipWrapper>
-        <p>{`Start time : ${additionalData.payload["start_time"]}`}</p>
-        <p>{`RPI : ${additionalData.payload["rpi"]}`}</p>
-        <p>{`Trend1_temperature : ${additionalData.payload["temperature_intercept_1"]}`}</p>
-        {/* Add more data here */}
-        <p>{`Temperature : ${additionalData.payload.temperature}`}</p>
-        <p>{`Pressure : ${additionalData.payload.pressure}`}</p>
-        <p>{`Predicted_temperature_y : ${additionalData.payload.temperature_predicted_rpi}`}</p>
-        <p>{`Predicted_pressure_y : ${additionalData.payload.pressure_predicted_rpi}`}</p>
-      </TooltipWrapper>
-    );
-  }
-
-  return null;
-};
 
 export const LegendTicks: React.FC<{
   min: number;
@@ -104,9 +74,3 @@ export const LegendTicks: React.FC<{
     </div>
   );
 };
-
-const TooltipWrapper = styled.div`
-  background-color: white;
-  border: 1px solid grey;
-  padding: 5px;
-`;

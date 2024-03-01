@@ -16,11 +16,8 @@ import styled from "styled-components";
 import * as d3 from "d3-scale";
 import { extent } from "d3-array";
 import { interpolateTurbo } from "d3-scale-chromatic";
-import {
-  ColorScaleLegend,
-  CustomTooltip,
-  LegendTicks,
-} from "./CrossPlotHelper";
+import { ColorScaleLegend, LegendTicks } from "./CrossPlotHelper";
+import { CustomTooltip } from "./CustomTooltip";
 
 export const CrossPlot: React.FC<{
   wellMeasurementData: IWellMeasurement[];
@@ -93,7 +90,7 @@ export const CrossPlot: React.FC<{
             ? renderTemperatureCorrelationLines()
             : renderPressureCorrelationLines()}
           <Legend
-            content={({ payload }) => (
+            content={() => (
               <div>
                 <ColorScaleLegend data={wellMeasurementData} />
                 <LegendTicks
@@ -253,12 +250,6 @@ const renderPressureCorrelationLines = () => {
     </>
   );
 };
-
-const LegendWrapper = styled.div<{ colorGradient: string }>`
-  width: 100%;
-  height: 20px;
-  background: linear-gradient(to right, ${(props) => props.colorGradient});
-`;
 
 const ChartWrapper = styled.div`
   width: 100%;

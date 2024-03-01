@@ -1,6 +1,7 @@
 import React from "react";
 import {
   CartesianGrid,
+  Label,
   Legend,
   Line,
   LineChart,
@@ -9,8 +10,6 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-  Label,
-  TooltipProps,
 } from "recharts";
 import { IWellMeasurement } from "../../models/IWellMeasurement";
 import styled from "styled-components";
@@ -19,10 +18,7 @@ import {
   RPI_GRAPH_COLOR,
   WPI_GRAPH_COLOR,
 } from "../../shared/constants";
-import {
-  NameType,
-  ValueType,
-} from "recharts/types/component/DefaultTooltipContent";
+import { CustomTooltip } from "./CustomTooltip";
 
 type AlarmArea = {
   x1: number;
@@ -136,37 +132,6 @@ export const PerformanceIndicatorsGraph: React.FC<{
       </ResponsiveContainer>
     </ChartWrapper>
   );
-};
-
-const CustomTooltip = ({
-  active,
-  payload,
-}: TooltipProps<ValueType, NameType>) => {
-  if (active && payload) {
-    return (
-      <div
-        style={{
-          backgroundColor: "#fff",
-          border: "1px solid #999",
-          margin: 0,
-          padding: 10,
-        }}
-      >
-        <div>Start Time: {payload[0].payload.start_time} </div>
-        {payload
-          .filter((entry) => typeof entry.name === "string")
-          .map((entry, index: number) => {
-            return (
-              <div key={index} style={{ color: entry.color }}>
-                {entry.name}: {entry.value}
-              </div>
-            );
-          })}
-      </div>
-    );
-  } else {
-    return null;
-  }
 };
 
 const CustomLegend = ({
