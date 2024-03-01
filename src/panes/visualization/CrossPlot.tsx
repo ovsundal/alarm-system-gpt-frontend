@@ -96,12 +96,9 @@ export const CrossPlot: React.FC<{
           <Legend
             content={() => (
               <div>
+                <div>Time, hours</div>
                 <ColorScaleLegend data={wellMeasurementData} />
-                <LegendTicks
-                  min={xAxisDimension === "temperature" ? 52 : 320}
-                  max={xAxisDimension === "temperature" ? 70 : 420}
-                  numTicks={5}
-                />
+                <LegendTicks min={1000} max={105000} numTicks={5} />
               </div>
             )}
           />

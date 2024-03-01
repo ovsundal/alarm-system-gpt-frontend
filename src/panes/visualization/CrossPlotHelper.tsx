@@ -63,7 +63,7 @@ export const LegendTicks: React.FC<{
             style={{
               position: "absolute",
               top: "12px",
-              marginLeft: "-7px",
+              marginLeft: "-12px",
               width: "100%",
             }}
           >
