@@ -8,7 +8,6 @@ import {
   Scatter,
   ScatterChart,
   Tooltip,
-  TooltipProps,
   XAxis,
   YAxis,
 } from "recharts";
@@ -17,6 +16,11 @@ import styled from "styled-components";
 import * as d3 from "d3-scale";
 import { extent } from "d3-array";
 import { interpolateTurbo } from "d3-scale-chromatic";
+import {
+  ColorScaleLegend,
+  CustomTooltip,
+  LegendTicks,
+} from "./CrossPlotHelper";
 
 export const CrossPlot: React.FC<{
   wellMeasurementData: IWellMeasurement[];
@@ -93,7 +97,18 @@ export const CrossPlot: React.FC<{
           {xAxisDimension === "temperature"
             ? renderTemperatureCorrelationLines()
             : renderPressureCorrelationLines()}
-          <Legend content={<ColorScaleLegend data={wellMeasurementData} />} />
+          <Legend
+            content={({ payload }) => (
+              <div>
+                <ColorScaleLegend data={wellMeasurementData} />
+                <LegendTicks
+                  min={xAxisDimension === "temperature" ? 52 : 320}
+                  max={xAxisDimension === "temperature" ? 70 : 420}
+                  numTicks={5}
+                />
+              </div>
+            )}
+          />
         </ScatterChart>
       </ResponsiveContainer>
     </ChartWrapper>
@@ -244,66 +259,13 @@ const renderPressureCorrelationLines = () => {
   );
 };
 
-export const ColorScaleLegend: React.FC<{ data: IWellMeasurement[] }> = ({
-  data,
-}) => {
-  // Calculate the min and max start_time values
-  const [minStartTime, maxStartTime] = extent(data, (d) => d.start_time) as [
-    number,
-    number,
-  ];
-
-  // Normalize a value within a given range
-  const normalize = (value: number, min: number, max: number) =>
-    (value - min) / (max - min);
-
-  // Create the color gradient
-  const colorGradient = data
-    .map((d) =>
-      interpolateTurbo(normalize(d.start_time, minStartTime, maxStartTime)),
-    )
-    .join(",");
-
-  return <LegendWrapper colorGradient={colorGradient} />;
-};
-
 const LegendWrapper = styled.div<{ colorGradient: string }>`
   width: 100%;
   height: 20px;
   background: linear-gradient(to right, ${(props) => props.colorGradient});
 `;
 
-const CustomTooltip = (props: TooltipProps<number, string>) => {
-  const { active, payload } = props;
-
-  if (active && payload && payload.length) {
-    // const additionalData: Payload<number, string> = payload[0];
-    const additionalData: any = payload[0];
-
-    return (
-      <TooltipWrapper>
-        <p>{`Start time : ${additionalData.payload["start_time"]}`}</p>
-        <p>{`RPI : ${additionalData.payload["rpi"]}`}</p>
-        <p>{`Trend1_temperature : ${additionalData.payload["temperature_intercept_1"]}`}</p>
-        {/* Add more data here */}
-        <p>{`Temperature : ${additionalData.payload.temperature}`}</p>
-        <p>{`Pressure : ${additionalData.payload.pressure}`}</p>
-        <p>{`Predicted_temperature_y : ${additionalData.payload.temperature_predicted_rpi}`}</p>
-        <p>{`Predicted_pressure_y : ${additionalData.payload.pressure_predicted_rpi}`}</p>
-      </TooltipWrapper>
-    );
-  }
-
-  return null;
-};
-
 const ChartWrapper = styled.div`
   width: 100%;
   height: 500px;
-`;
-
-const TooltipWrapper = styled.div`
-  background-color: white;
-  border: 1px solid grey;
-  padding: 5px;
 `;
