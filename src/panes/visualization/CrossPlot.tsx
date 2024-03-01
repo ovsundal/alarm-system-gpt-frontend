@@ -62,7 +62,11 @@ export const CrossPlot: React.FC<{
           <XAxis
             type={"number"}
             dataKey={xAxisDimension}
-            label={xAxisDimension}
+            label={
+              xAxisDimension === "temperature"
+                ? "Temperature, C\u00B0"
+                : "Pressure, psi"
+            }
             height={75}
             domain={xAxisDimension === "temperature" ? [52, 70] : [320, 420]}
           />
