@@ -25,13 +25,13 @@ export const ColorScaleLegend: React.FC<{ data: IWellMeasurement[] }> = ({
     )
     .join(",");
 
-  return <LegendWrapper colorGradient={colorGradient} />;
+  return <LegendWrapper $colorGradient={colorGradient} />;
 };
 
-const LegendWrapper = styled.div<{ colorGradient: string }>`
+const LegendWrapper = styled.div<{ $colorGradient: string }>`
   width: 100%;
   height: 20px;
-  background: linear-gradient(to right, ${(props) => props.colorGradient});
+  background: linear-gradient(to right, ${(props) => props.$colorGradient});
 `;
 
 const ChartWrapper = styled.div`

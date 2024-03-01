@@ -30,11 +30,6 @@ export const CrossPlot: React.FC<{
     (dataPoint) => dataPoint.rpi != null,
   );
 
-  console.log(
-    wellMeasurementDataWithoutPredictions,
-    (d: any) => d.start_time as [number, number],
-  );
-
   const colorScale = d3
     .scaleSequential()
     .domain(
