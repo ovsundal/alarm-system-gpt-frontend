@@ -34,3 +34,23 @@ export const fetchWellMeasurements = async (
   );
   return response.data as IWellMeasurement[];
 };
+
+export const fetchSendMessage = async (message: string) => {
+  const response = await axios.post("http://localhost:8000/api/chat/Chat/", {
+    user_prompt: message,
+  });
+
+  return {
+    position: "left",
+    title: "Alarm Bot",
+    date: new Date().getTime(),
+    text: response.data,
+  } as Message;
+};
+
+export type Message = {
+  position: "left" | "right";
+  title: string;
+  text: string;
+  date: number;
+};
