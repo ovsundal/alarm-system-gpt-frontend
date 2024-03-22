@@ -1,10 +1,11 @@
 import Card from "../../shared/Card";
 import React, { useState } from "react";
-import { Switch, Tabs } from "@equinor/eds-core-react";
+import { Tabs } from "@equinor/eds-core-react";
 import { IWellMeasurement } from "../../models/IWellMeasurement";
-import { PerformanceIndicatorsGraph } from "./PerformanceIndicatorsGraph";
-import { CrossPlot } from "./CrossPlot";
+import { CrossPlot } from "./cross-plot/CrossPlot";
 import styled from "styled-components";
+import { LlmResponse } from "./llm-response/LlmResponse";
+import { PtaMetrics } from "./pta-metrics/PtaMetrics";
 
 export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
   measurementData,
@@ -22,47 +23,30 @@ export const Output: React.FC<{ measurementData: IWellMeasurement[] }> = ({
     <Card>
       <Tabs activeTab={activeTab} onChange={handleChange}>
         <Tabs.List>
-          <Tabs.Tab>Summary</Tabs.Tab>
+          <Tabs.Tab>LLM Response</Tabs.Tab>
           <Tabs.Tab>PTA metrics</Tabs.Tab>
           <Tabs.Tab>Cross-plot</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panels>
-          <Tabs.Panel>Panel one</Tabs.Panel>
           <Tabs.Panel>
-            <Switch
-              defaultChecked={true}
-              label={"Show PIs"}
-              onChange={() => setShowPis((prevState) => !prevState)}
-            />
-            <Switch
-              defaultChecked={false}
-              label={"RPI alarms"}
-              onChange={() => setShowRpiAlarms((prevState) => !prevState)}
-            />
-            <Switch
-              defaultChecked={false}
-              label={"CPI alarms"}
-              onChange={() => setShowCpiAlarms((prevState) => !prevState)}
-            />
-            <Switch
-              defaultChecked={false}
-              label={"WPI alarms"}
-              onChange={() => setShowWpiAlarms((prevState) => !prevState)}
-            />
-            <Switch
-              defaultChecked={true}
-              label={"Show trends"}
-              onChange={() => setShowTrends((prevState) => !prevState)}
-            />
-            <PerformanceIndicatorsGraph
-              wellMeasurementData={measurementData}
+            <LlmResponse />
+          </Tabs.Panel>
+          <Tabs.Panel>
+            <PtaMetrics
+              showRpiAlarms={showRpiAlarms}
+              showCpiAlarms={showCpiAlarms}
+              showWpiAlarms={showWpiAlarms}
               showTrends={showTrends}
               showPis={showPis}
-              showRpiAlarms={showRpiAlarms}
-              showWpiAlarms={showWpiAlarms}
-              showCpiAlarms={showCpiAlarms}
+              setShowPis={setShowPis}
+              setShowRpiAlarms={setShowRpiAlarms}
+              setShowCpiAlarms={setShowCpiAlarms}
+              setShowWpiAlarms={setShowWpiAlarms}
+              setShowTrends={setShowTrends}
+              measurementData={measurementData}
             />
           </Tabs.Panel>
+
           <Tabs.Panel>
             <CrossPlotWrapper>
               <CrossPlot

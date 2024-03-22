@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { interpolateTurbo } from "d3-scale-chromatic";
-import { IWellMeasurement } from "../../models/IWellMeasurement";
+import { IWellMeasurement } from "../../../models/IWellMeasurement";
 import { extent } from "d3-array";
 
 export const ColorScaleLegend: React.FC<{ data: IWellMeasurement[] }> = ({

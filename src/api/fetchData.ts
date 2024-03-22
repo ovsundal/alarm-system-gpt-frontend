@@ -36,15 +36,17 @@ export const fetchWellMeasurements = async (
 };
 
 export const fetchSendMessage = async (message: string) => {
-  const response = await axios.post("http://localhost:8000/api/chat/Chat/", {
-    user_prompt: message,
-  });
-
+  const response = (
+    await axios.post("http://localhost:8000/api/chat/Chat/", {
+      user_prompt: message,
+    })
+  ).data as ChatResponse;
+  console.log(response);
   return {
     position: "left",
     title: "Alarm Bot",
     date: new Date().getTime(),
-    text: response.data,
+    text: response.output.chat_response,
   } as Message;
 };
 
@@ -53,4 +55,21 @@ export type Message = {
   title: string;
   text: string;
   date: number;
+};
+
+type ChatResponse = {
+  input: string;
+  output: {
+    extract_data_params: ExtractDataParams;
+    data_to_plot: any[];
+    original_query: string;
+    chat_response: string;
+  };
+};
+
+type ExtractDataParams = {
+  well_name: string;
+  x_axis_dimension: string;
+  y_axis_dimensions: string[];
+  graph_description: string;
 };

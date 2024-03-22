@@ -11,14 +11,14 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { IWellMeasurement } from "../../models/IWellMeasurement";
+import { IWellMeasurement } from "../../../models/IWellMeasurement";
 import styled from "styled-components";
 import {
   CPI_GRAPH_COLOR,
   RPI_GRAPH_COLOR,
   WPI_GRAPH_COLOR,
-} from "../../shared/constants";
-import { CustomTooltip } from "./CustomTooltip";
+} from "../../../shared/constants";
+import { CustomTooltip } from "../CustomTooltip";
 
 type AlarmArea = {
   x1: number;

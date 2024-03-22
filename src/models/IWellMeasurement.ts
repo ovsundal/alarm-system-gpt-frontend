@@ -1,4 +1,5 @@
 export interface IWellMeasurement {
+  well_name: string;
   start_time: number;
   reference_rate: number;
   pressure: number;

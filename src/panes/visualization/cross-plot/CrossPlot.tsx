@@ -11,13 +11,13 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { IWellMeasurement } from "../../models/IWellMeasurement";
+import { IWellMeasurement } from "../../../models/IWellMeasurement";
 import styled from "styled-components";
 import * as d3 from "d3-scale";
 import { extent } from "d3-array";
 import { interpolateTurbo } from "d3-scale-chromatic";
 import { ColorScaleLegend, LegendTicks } from "./CrossPlotHelper";
-import { CustomTooltip } from "./CustomTooltip";
+import { CustomTooltip } from "../CustomTooltip";
 
 export const CrossPlot: React.FC<{
   wellMeasurementData: IWellMeasurement[];
