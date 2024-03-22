@@ -12,7 +12,7 @@ type ChatOutput = {
   chat_response: string;
 };
 
-type ExtractDataParams = {
+export type ExtractDataParams = {
   well_name: string;
   x_axis_dimension: string;
   y_axis_dimensions: string[];

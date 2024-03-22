@@ -21,7 +21,6 @@ export const Output: React.FC<{
   const handleChange = (index: number) => {
     setActiveTab(index);
   };
-  console.log(llmChatResponseGraphData);
   return (
     <Card>
       <Tabs activeTab={activeTab} onChange={handleChange}>
