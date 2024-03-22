@@ -1,20 +1,22 @@
 import Card from "../../shared/Card";
 import React, { useState } from "react";
-import { Typography } from "@equinor/eds-core-react";
+import { Icon, Typography } from "@equinor/eds-core-react";
 import "react-chat-elements/dist/main.css";
 import { Input, MessageBox } from "react-chat-elements";
 import styled from "styled-components";
-import { Icon } from "@equinor/eds-core-react";
 import { send } from "@equinor/eds-icons";
 import { fetchSendMessage } from "../../api/fetchData";
+import { ILlmChatResponse } from "../../models/ILlmChatResponse";
 
-export type Message = {
+type Message = {
   position: "left" | "right";
   title: string;
   text: string;
   date: number;
 };
-export const Chat: React.FC = () => {
+export const Chat: React.FC<{
+  setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>;
+}> = ({ setLlmGraphData }) => {
   const [message, setMessage] = useState("");
   const [messageContainer, setMessageContainer] = useState<Message[]>([
     {
@@ -46,7 +48,13 @@ export const Chat: React.FC = () => {
           maxHeight={100}
           maxlength={500}
           onKeyPress={(e: React.KeyboardEvent) =>
-            handleKeyPress(e, message, setMessage, setMessageContainer)
+            handleKeyPress(
+              e,
+              message,
+              setMessage,
+              setMessageContainer,
+              setLlmGraphData,
+            )
           }
           value={message}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -57,7 +65,12 @@ export const Chat: React.FC = () => {
               data={send}
               size={18}
               onClick={() =>
-                handleSend(message, setMessage, setMessageContainer)
+                handleSend(
+                  message,
+                  setMessage,
+                  setMessageContainer,
+                  setLlmGraphData,
+                )
               }
             />
           }
@@ -72,9 +85,10 @@ const handleKeyPress = (
   message: string,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   setMessageContainer: React.Dispatch<React.SetStateAction<Message[]>>,
+  setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>,
 ) => {
   if (e.key === "Enter") {
-    handleSend(message, setMessage, setMessageContainer);
+    handleSend(message, setMessage, setMessageContainer, setLlmGraphData);
   }
 };
 
@@ -82,6 +96,7 @@ const handleSend = async (
   message: string,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   setMessageContainer: React.Dispatch<React.SetStateAction<Message[]>>,
+  setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>,
 ) => {
   if (message.trim() === "") {
     return;
@@ -99,8 +114,14 @@ const handleSend = async (
     },
   ]);
   const responseMessage = await fetchSendMessage(validatedMessage);
-
-  setMessageContainer((prevState) => [...prevState, responseMessage]);
+  const chatMessage = {
+    position: "left",
+    title: "Alarm Bot",
+    date: new Date().getTime(),
+    text: responseMessage.output!.chat_response,
+  } as Message;
+  setLlmGraphData(responseMessage);
+  setMessageContainer((prevState) => [...prevState, chatMessage]);
 };
 
 const CardWrapper = styled(Card)`

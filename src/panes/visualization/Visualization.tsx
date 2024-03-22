@@ -5,15 +5,21 @@ import { Chat } from "./Chat";
 import { Output } from "./Output";
 import Card from "../../shared/Card";
 import { Typography } from "@equinor/eds-core-react";
+import { ILlmChatResponse } from "../../models/ILlmChatResponse";
 
 export const Visualization: React.FC<{
   measurementData: IWellMeasurement[];
-}> = ({ measurementData }) => {
+  setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>;
+  llmChatResponseGraphData: ILlmChatResponse;
+}> = ({ measurementData, setLlmGraphData, llmChatResponseGraphData }) => {
   return (
     <VisualizationWrapper>
-      <Chat />
+      <Chat setLlmGraphData={setLlmGraphData} />
       {(measurementData && measurementData.length > 0 && (
-        <Output measurementData={measurementData} />
+        <Output
+          measurementData={measurementData}
+          llmChatResponseGraphData={llmChatResponseGraphData}
+        />
       )) || <NoDataComponent />}
     </VisualizationWrapper>
   );
