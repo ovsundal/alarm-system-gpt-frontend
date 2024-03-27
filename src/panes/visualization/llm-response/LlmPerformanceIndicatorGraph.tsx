@@ -19,7 +19,12 @@ import { ExtractDataParams } from "../../../models/ILlmChatResponse";
 export const LlmPerformanceIndicatorGraph: React.FC<{
   llmWellMeasurementData: ILlmWellMeasurement[];
   graphParameters: ExtractDataParams;
-}> = ({ llmWellMeasurementData, graphParameters }) => {
+  alarmLimits: {
+    rpi_alarms: number[];
+    cpi_alarms: number[];
+    wpi_alarms: number[];
+  };
+}> = ({ llmWellMeasurementData, graphParameters, alarmLimits }) => {
   return (
     <ResponsiveContainer width={"100%"} height={500}>
       <LineChart
@@ -69,6 +74,12 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
           activeDot={{ r: 8 }}
           strokeWidth={2}
         />
+        {graphParameters.y_axis_dimensions.includes("cpi") &&
+          renderAlarmLimits(CPI_GRAPH_COLOR, alarmLimits.cpi_alarms)}
+        {graphParameters.y_axis_dimensions.includes("rpi") &&
+          renderAlarmLimits(RPI_GRAPH_COLOR, alarmLimits.rpi_alarms)}
+        {graphParameters.y_axis_dimensions.includes("wpi") &&
+          renderAlarmLimits(WPI_GRAPH_COLOR, alarmLimits.wpi_alarms)}
         <Legend
           content={
             <CustomLegend parameters={graphParameters.y_axis_dimensions} />
@@ -76,6 +87,28 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
         />
       </LineChart>
     </ResponsiveContainer>
+  );
+};
+
+const renderAlarmLimits = (color: string, alarmLimits: number[]) => {
+  const strokeDashArray = "1 2";
+  return (
+    <>
+      <Line
+        type="monotone"
+        dataKey={() => alarmLimits[0]}
+        stroke={color}
+        dot={false}
+        strokeDasharray={strokeDashArray}
+      />
+      <Line
+        type="monotone"
+        dataKey={() => alarmLimits[1]}
+        stroke={color}
+        dot={false}
+        strokeDasharray={strokeDashArray}
+      />
+    </>
   );
 };
 

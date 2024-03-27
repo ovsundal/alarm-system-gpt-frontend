@@ -16,7 +16,10 @@ type Message = {
 };
 export const Chat: React.FC<{
   setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>;
-}> = ({ setLlmGraphData }) => {
+  rpiAlarmValues: number[];
+  cpiAlarmValues: number[];
+  wpiAlarmValues: number[];
+}> = ({ setLlmGraphData, rpiAlarmValues, cpiAlarmValues, wpiAlarmValues }) => {
   const [message, setMessage] = useState("");
   const [messageContainer, setMessageContainer] = useState<Message[]>([
     {
@@ -54,6 +57,9 @@ export const Chat: React.FC<{
               setMessage,
               setMessageContainer,
               setLlmGraphData,
+              rpiAlarmValues,
+              cpiAlarmValues,
+              wpiAlarmValues,
             )
           }
           value={message}
@@ -70,6 +76,9 @@ export const Chat: React.FC<{
                   setMessage,
                   setMessageContainer,
                   setLlmGraphData,
+                  rpiAlarmValues,
+                  cpiAlarmValues,
+                  wpiAlarmValues,
                 )
               }
             />
@@ -86,9 +95,20 @@ const handleKeyPress = (
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   setMessageContainer: React.Dispatch<React.SetStateAction<Message[]>>,
   setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>,
+  rpiAlarmValues: number[],
+  cpiAlarmValues: number[],
+  wpiAlarmValues: number[],
 ) => {
   if (e.key === "Enter") {
-    handleSend(message, setMessage, setMessageContainer, setLlmGraphData);
+    handleSend(
+      message,
+      setMessage,
+      setMessageContainer,
+      setLlmGraphData,
+      rpiAlarmValues,
+      cpiAlarmValues,
+      wpiAlarmValues,
+    );
   }
 };
 
@@ -97,6 +117,9 @@ const handleSend = async (
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   setMessageContainer: React.Dispatch<React.SetStateAction<Message[]>>,
   setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>,
+  rpiAlarmValues: number[],
+  cpiAlarmValues: number[],
+  wpiAlarmValues: number[],
 ) => {
   if (message.trim() === "") {
     return;
@@ -113,7 +136,12 @@ const handleSend = async (
       date: new Date().getTime(),
     },
   ]);
-  const responseMessage = await fetchSendMessage(validatedMessage);
+  const responseMessage = await fetchSendMessage(
+    validatedMessage,
+    rpiAlarmValues,
+    cpiAlarmValues,
+    wpiAlarmValues,
+  );
   const chatMessage = {
     position: "left",
     title: "Alarm Bot",

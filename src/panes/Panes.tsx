@@ -67,6 +67,9 @@ export const Panes = () => {
             llmChatResponseGraphData={llmChatResponseGraphData}
             measurementData={measurementData}
             setLlmGraphData={setLlmChatResponse}
+            rpiAlarmValues={rpiAlarmValues}
+            cpiAlarmValues={cpiAlarmValues}
+            wpiAlarmValues={wpiAlarmValues}
           />
         </Tabs.Panel>
       </Tabs.Panels>

@@ -36,10 +36,18 @@ export const fetchWellMeasurements = async (
   return response.data as IWellMeasurement[];
 };
 
-export const fetchSendMessage = async (message: string) => {
+export const fetchSendMessage = async (
+  message: string,
+  rpiAlarmValues: number[],
+  cpiAlarmValues: number[],
+  wpiAlarmValues: number[],
+) => {
   return (
     await axios.post("http://localhost:8000/api/chat/Chat/", {
       user_prompt: message,
+      rpiAlarmValues,
+      cpiAlarmValues,
+      wpiAlarmValues,
     })
   ).data as ILlmChatResponse;
 };

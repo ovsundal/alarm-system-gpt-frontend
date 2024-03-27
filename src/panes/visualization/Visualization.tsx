@@ -11,10 +11,25 @@ export const Visualization: React.FC<{
   measurementData: IWellMeasurement[];
   setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>;
   llmChatResponseGraphData: ILlmChatResponse;
-}> = ({ measurementData, setLlmGraphData, llmChatResponseGraphData }) => {
+  rpiAlarmValues: number[];
+  cpiAlarmValues: number[];
+  wpiAlarmValues: number[];
+}> = ({
+  measurementData,
+  setLlmGraphData,
+  llmChatResponseGraphData,
+  rpiAlarmValues,
+  cpiAlarmValues,
+  wpiAlarmValues,
+}) => {
   return (
     <VisualizationWrapper>
-      <Chat setLlmGraphData={setLlmGraphData} />
+      <Chat
+        setLlmGraphData={setLlmGraphData}
+        rpiAlarmValues={rpiAlarmValues}
+        cpiAlarmValues={cpiAlarmValues}
+        wpiAlarmValues={wpiAlarmValues}
+      />
       {(measurementData && measurementData.length > 0 && (
         <Output
           measurementData={measurementData}

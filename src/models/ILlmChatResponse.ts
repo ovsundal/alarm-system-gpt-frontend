@@ -10,6 +10,11 @@ type ChatOutput = {
   data_to_plot: ILlmWellMeasurement[];
   original_query: string;
   chat_response: string;
+  alarm_limits: {
+    rpi_alarms: number[];
+    cpi_alarms: number[];
+    wpi_alarms: number[];
+  };
 };
 
 export type ExtractDataParams = {

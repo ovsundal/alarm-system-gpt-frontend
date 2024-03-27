@@ -14,12 +14,13 @@ export const LlmResponse: React.FC<{
     <div>
       <Typography>
         {`User query that triggered this graph: 
-        "${decodeURIComponent(llmChatResponseGraphData.input!)}"`}
+        "${llmChatResponseGraphData.input}"`}
       </Typography>
       <ChartWrapper>
         <LlmPerformanceIndicatorGraph
           llmWellMeasurementData={llmChatResponseGraphData.output.data_to_plot}
           graphParameters={llmChatResponseGraphData.output.extract_data_params}
+          alarmLimits={llmChatResponseGraphData.output.alarm_limits}
         />
       </ChartWrapper>
       <Typography>
