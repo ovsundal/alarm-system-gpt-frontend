@@ -20,9 +20,9 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
   llmWellMeasurementData: ILlmWellMeasurement[];
   graphParameters: ExtractDataParams;
   alarmLimits: {
-    rpi_alarms: number[];
-    cpi_alarms: number[];
-    wpi_alarms: number[];
+    rpi: number[];
+    cpi: number[];
+    wpi: number[];
   };
 }> = ({ llmWellMeasurementData, graphParameters, alarmLimits }) => {
   return (
@@ -75,11 +75,11 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
           strokeWidth={2}
         />
         {graphParameters.y_axis_dimensions.includes("cpi") &&
-          renderAlarmLimits(CPI_GRAPH_COLOR, alarmLimits.cpi_alarms)}
+          renderAlarmLimits(CPI_GRAPH_COLOR, alarmLimits.cpi)}
         {graphParameters.y_axis_dimensions.includes("rpi") &&
-          renderAlarmLimits(RPI_GRAPH_COLOR, alarmLimits.rpi_alarms)}
+          renderAlarmLimits(RPI_GRAPH_COLOR, alarmLimits.rpi)}
         {graphParameters.y_axis_dimensions.includes("wpi") &&
-          renderAlarmLimits(WPI_GRAPH_COLOR, alarmLimits.wpi_alarms)}
+          renderAlarmLimits(WPI_GRAPH_COLOR, alarmLimits.wpi)}
         <Legend
           content={
             <CustomLegend parameters={graphParameters.y_axis_dimensions} />
