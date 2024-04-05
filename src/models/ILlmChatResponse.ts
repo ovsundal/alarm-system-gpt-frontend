@@ -1,22 +1,10 @@
-import { ILlmWellMeasurement } from "./ILlmWellMeasurement";
+import { ILlmPlotOutput } from "./ILlmPlotOutput";
 
 export interface ILlmChatResponse {
-  input?: string;
-  output?: ChatOutput;
-}
-
-type ChatOutput = {
-  extract_data_params: ExtractDataParams;
-  data_to_plot: ILlmWellMeasurement[];
   original_query: string;
   chat_response: string;
-  alarm_response: string;
-  alarm_limits: {
-    rpi: number[];
-    cpi: number[];
-    wpi: number[];
-  };
-};
+  plotting?: ILlmPlotOutput;
+}
 
 export type ExtractDataParams = {
   well_name: string;

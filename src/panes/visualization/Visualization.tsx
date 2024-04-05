@@ -5,19 +5,19 @@ import { Chat } from "./Chat";
 import { Output } from "./Output";
 import Card from "../../shared/Card";
 import { Typography } from "@equinor/eds-core-react";
-import { ILlmChatResponse } from "../../models/ILlmChatResponse";
+import { ILlmPlotOutput } from "../../models/ILlmPlotOutput";
 
 export const Visualization: React.FC<{
   measurementData: IWellMeasurement[];
-  setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>;
-  llmChatResponseGraphData: ILlmChatResponse;
+  setLlmPlotOutput: React.Dispatch<React.SetStateAction<ILlmPlotOutput>>;
+  llmPlotOutput: ILlmPlotOutput;
   rpiAlarmValues: number[];
   cpiAlarmValues: number[];
   wpiAlarmValues: number[];
 }> = ({
   measurementData,
-  setLlmGraphData,
-  llmChatResponseGraphData,
+  setLlmPlotOutput,
+  llmPlotOutput,
   rpiAlarmValues,
   cpiAlarmValues,
   wpiAlarmValues,
@@ -25,7 +25,7 @@ export const Visualization: React.FC<{
   return (
     <VisualizationWrapper>
       <Chat
-        setLlmGraphData={setLlmGraphData}
+        setLlmPlotOutput={setLlmPlotOutput}
         rpiAlarmValues={rpiAlarmValues}
         cpiAlarmValues={cpiAlarmValues}
         wpiAlarmValues={wpiAlarmValues}
@@ -33,7 +33,7 @@ export const Visualization: React.FC<{
       {(measurementData && measurementData.length > 0 && (
         <Output
           measurementData={measurementData}
-          llmChatResponseGraphData={llmChatResponseGraphData}
+          llmPlotOutput={llmPlotOutput}
         />
       )) || <NoDataComponent />}
     </VisualizationWrapper>

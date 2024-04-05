@@ -1,33 +1,28 @@
 import React from "react";
-import { ILlmChatResponse } from "../../../models/ILlmChatResponse";
 import { Typography } from "@equinor/eds-core-react";
 import styled from "styled-components";
 import { LlmPerformanceIndicatorGraph } from "./LlmPerformanceIndicatorGraph";
+import { ILlmPlotOutput } from "../../../models/ILlmPlotOutput";
 
 export const LlmResponse: React.FC<{
-  llmChatResponseGraphData: ILlmChatResponse;
-}> = ({ llmChatResponseGraphData }) => {
-  if (llmChatResponseGraphData?.output?.data_to_plot == null) {
+  llmPlotOutput: ILlmPlotOutput;
+}> = ({ llmPlotOutput }) => {
+  if (Object.keys(llmPlotOutput).length === 0) {
     return <Typography>No data to plot</Typography>;
   }
-  const formattedAlarmResponse =
-    llmChatResponseGraphData.output.alarm_response.split("\n");
+  const formattedAlarmResponse = llmPlotOutput.alarm_response.split("\n");
   return (
     <div>
-      <Typography>
-        {`User query that triggered this graph: 
-        "${llmChatResponseGraphData.input}"`}
-      </Typography>
       <ChartWrapper>
         <LlmPerformanceIndicatorGraph
-          llmWellMeasurementData={llmChatResponseGraphData.output.data_to_plot}
-          graphParameters={llmChatResponseGraphData.output.extract_data_params}
-          alarmLimits={llmChatResponseGraphData.output.alarm_limits}
+          llmWellMeasurementData={llmPlotOutput.data_to_plot}
+          graphParameters={llmPlotOutput.extract_data_params}
+          alarmLimits={llmPlotOutput.alarm_limits}
         />
       </ChartWrapper>
       <Typography variant={"h3"}>Graph description:</Typography>
       <Typography>
-        {llmChatResponseGraphData.output.extract_data_params.graph_description}
+        {llmPlotOutput.extract_data_params.graph_description}
       </Typography>
       <br />
       <br />

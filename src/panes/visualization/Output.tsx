@@ -6,12 +6,12 @@ import { CrossPlot } from "./cross-plot/CrossPlot";
 import styled from "styled-components";
 import { LlmResponse } from "./llm-response/LlmResponse";
 import { PtaMetrics } from "./pta-metrics/PtaMetrics";
-import { ILlmChatResponse } from "../../models/ILlmChatResponse";
+import { ILlmPlotOutput } from "../../models/ILlmPlotOutput";
 
 export const Output: React.FC<{
   measurementData: IWellMeasurement[];
-  llmChatResponseGraphData: ILlmChatResponse;
-}> = ({ measurementData, llmChatResponseGraphData }) => {
+  llmPlotOutput: ILlmPlotOutput;
+}> = ({ measurementData, llmPlotOutput }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [showRpiAlarms, setShowRpiAlarms] = useState(false);
   const [showCpiAlarms, setShowCpiAlarms] = useState(false);
@@ -31,7 +31,7 @@ export const Output: React.FC<{
         </Tabs.List>
         <Tabs.Panels>
           <Tabs.Panel>
-            <LlmResponse llmChatResponseGraphData={llmChatResponseGraphData} />
+            <LlmResponse llmPlotOutput={llmPlotOutput} />
           </Tabs.Panel>
           <Tabs.Panel>
             <PtaMetrics

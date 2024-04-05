@@ -6,7 +6,7 @@ import { Input, MessageBox } from "react-chat-elements";
 import styled from "styled-components";
 import { send } from "@equinor/eds-icons";
 import { fetchSendMessage } from "../../api/fetchData";
-import { ILlmChatResponse } from "../../models/ILlmChatResponse";
+import { ILlmPlotOutput } from "../../models/ILlmPlotOutput";
 
 type Message = {
   position: "left" | "right";
@@ -15,11 +15,11 @@ type Message = {
   date: number;
 };
 export const Chat: React.FC<{
-  setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>;
+  setLlmPlotOutput: React.Dispatch<React.SetStateAction<ILlmPlotOutput>>;
   rpiAlarmValues: number[];
   cpiAlarmValues: number[];
   wpiAlarmValues: number[];
-}> = ({ setLlmGraphData, rpiAlarmValues, cpiAlarmValues, wpiAlarmValues }) => {
+}> = ({ setLlmPlotOutput, rpiAlarmValues, cpiAlarmValues, wpiAlarmValues }) => {
   const [message, setMessage] = useState("");
   const [messageContainer, setMessageContainer] = useState<Message[]>([
     {
@@ -56,7 +56,7 @@ export const Chat: React.FC<{
               message,
               setMessage,
               setMessageContainer,
-              setLlmGraphData,
+              setLlmPlotOutput,
               rpiAlarmValues,
               cpiAlarmValues,
               wpiAlarmValues,
@@ -75,7 +75,7 @@ export const Chat: React.FC<{
                   message,
                   setMessage,
                   setMessageContainer,
-                  setLlmGraphData,
+                  setLlmPlotOutput,
                   rpiAlarmValues,
                   cpiAlarmValues,
                   wpiAlarmValues,
@@ -94,7 +94,7 @@ const handleKeyPress = (
   message: string,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   setMessageContainer: React.Dispatch<React.SetStateAction<Message[]>>,
-  setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>,
+  setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmPlotOutput>>,
   rpiAlarmValues: number[],
   cpiAlarmValues: number[],
   wpiAlarmValues: number[],
@@ -116,7 +116,7 @@ const handleSend = async (
   message: string,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   setMessageContainer: React.Dispatch<React.SetStateAction<Message[]>>,
-  setLlmGraphData: React.Dispatch<React.SetStateAction<ILlmChatResponse>>,
+  setLlmPlotOutput: React.Dispatch<React.SetStateAction<ILlmPlotOutput>>,
   rpiAlarmValues: number[],
   cpiAlarmValues: number[],
   wpiAlarmValues: number[],
@@ -146,9 +146,11 @@ const handleSend = async (
     position: "left",
     title: "Alarm Bot",
     date: new Date().getTime(),
-    text: responseMessage.output!.chat_response,
+    text: responseMessage.chat_response,
   } as Message;
-  setLlmGraphData(responseMessage);
+  if (responseMessage.plotting != null) {
+    setLlmPlotOutput(responseMessage.plotting);
+  }
   setMessageContainer((prevState) => [...prevState, chatMessage]);
 };
 

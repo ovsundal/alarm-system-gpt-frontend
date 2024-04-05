@@ -9,7 +9,7 @@ import {
   RPI_DEFAULT_ALARM_VALUES,
   WPI_DEFAULT_ALARM_VALUES,
 } from "../shared/constants";
-import { ILlmChatResponse } from "../models/ILlmChatResponse";
+import { ILlmPlotOutput } from "../models/ILlmPlotOutput";
 
 export const Panes = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -27,9 +27,7 @@ export const Panes = () => {
   const [measurementData, setMeasurementData] = useState(
     [] as IWellMeasurement[],
   );
-  const [llmChatResponseGraphData, setLlmChatResponse] = useState(
-    {} as ILlmChatResponse,
-  );
+  const [llmPlotOutput, setLlmPlotOutput] = useState({} as ILlmPlotOutput);
 
   const navigate = useNavigate();
   const path = useLocation().pathname;
@@ -64,9 +62,9 @@ export const Panes = () => {
         </Tabs.Panel>
         <Tabs.Panel>
           <Visualization
-            llmChatResponseGraphData={llmChatResponseGraphData}
+            llmPlotOutput={llmPlotOutput}
             measurementData={measurementData}
-            setLlmGraphData={setLlmChatResponse}
+            setLlmPlotOutput={setLlmPlotOutput}
             rpiAlarmValues={rpiAlarmValues}
             cpiAlarmValues={cpiAlarmValues}
             wpiAlarmValues={wpiAlarmValues}
