@@ -156,7 +156,7 @@ const handleSend = async (
 
 const CardWrapper = styled(Card)`
   background-color: #f5f5f5;
-  height: 750px;
+  min-height: 750px;
 `;
 const HeaderText = styled(Typography).attrs({
   variant: "h2",
@@ -170,4 +170,6 @@ const ChatWindowWrapper = styled.div`
   justify-content: space-between;
   height: 93%;
 `;
-const MessageWrapper = styled.div``;
+const MessageWrapper = styled.div`
+  margin-bottom: 10px;
+`;
