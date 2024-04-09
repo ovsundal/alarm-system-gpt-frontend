@@ -10,13 +10,16 @@ export const WellList: React.FC<{
   wells: IWell[];
   selectedWellId: string;
   setSelectedWellId: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ wells, setSelectedWellId, selectedWellId }) => {
+  setSelectedWellName: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ wells, setSelectedWellId, selectedWellId, setSelectedWellName }) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedWellId(event.target.id);
+    setSelectedWellName(event.target.name);
   };
 
-  const onRowClick = (id: string) => {
+  const onRowClick = (id: string, name: string) => {
     setSelectedWellId(id);
+    setSelectedWellName(name);
   };
 
   return (
@@ -44,7 +47,7 @@ export const WellList: React.FC<{
             <TableRowWrapper
               $isSelected={selectedWellId === id.toString()}
               key={id}
-              onClick={() => onRowClick(id.toString())}
+              onClick={() => onRowClick(id.toString(), name)}
             >
               <Table.Cell>
                 <Radio

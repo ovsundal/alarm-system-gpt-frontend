@@ -15,6 +15,7 @@ type Message = {
   date: number;
 };
 export const Chat: React.FC<{
+  selectedWellName: string;
   setLlmPlotOutput: React.Dispatch<React.SetStateAction<ILlmPlotOutput>>;
   rpiAlarmValues: number[];
   cpiAlarmValues: number[];

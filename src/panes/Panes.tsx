@@ -14,6 +14,7 @@ import { ILlmPlotOutput } from "../models/ILlmPlotOutput";
 export const Panes = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedWellId, setSelectedWellId] = useState("");
+  const [selectedWellName, setSelectedWellName] = useState("");
   const [alarmIsManual, setAlarmIsManual] = useState(false);
   const [rpiAlarmValues, setRpiAlarmValues] = useState(
     RPI_DEFAULT_ALARM_VALUES,
@@ -33,6 +34,7 @@ export const Panes = () => {
   const path = useLocation().pathname;
 
   useSetActiveTab(path, setActiveTab);
+  console.log(selectedWellName);
   return (
     <Tabs
       activeTab={activeTab}
@@ -42,13 +44,16 @@ export const Panes = () => {
     >
       <Tabs.List>
         <Tabs.Tab>Well selection and alarm settings</Tabs.Tab>
-        <Tabs.Tab>Data visualization and chat</Tabs.Tab>
+        <Tabs.Tab disabled={selectedWellName === ""}>
+          Data visualization and chat
+        </Tabs.Tab>
       </Tabs.List>
       <Tabs.Panels>
         <Tabs.Panel>
           <Selection
             selectedWellId={selectedWellId}
             setSelectedWellId={setSelectedWellId}
+            setSelectedWellName={setSelectedWellName}
             alarmIsManual={alarmIsManual}
             setAlarmIsManual={setAlarmIsManual}
             setMeasurementData={setMeasurementData}
@@ -62,6 +67,7 @@ export const Panes = () => {
         </Tabs.Panel>
         <Tabs.Panel>
           <Visualization
+            selectedWellName={selectedWellName}
             llmPlotOutput={llmPlotOutput}
             measurementData={measurementData}
             setLlmPlotOutput={setLlmPlotOutput}

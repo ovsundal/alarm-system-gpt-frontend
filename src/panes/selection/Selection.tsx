@@ -9,6 +9,7 @@ import { IWellMeasurement } from "../../models/IWellMeasurement";
 export const Selection: React.FC<{
   selectedWellId: string;
   setSelectedWellId: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedWellName: React.Dispatch<React.SetStateAction<string>>;
   alarmIsManual: boolean;
   setAlarmIsManual: React.Dispatch<React.SetStateAction<boolean>>;
   rpiAlarmValues: number[];
@@ -30,6 +31,7 @@ export const Selection: React.FC<{
   wpiAlarmValues,
   setWpiAlarmValues,
   setMeasurementData,
+  setSelectedWellName,
 }) => {
   const [wells, setWells] = React.useState([] as IWell[]);
 
@@ -47,6 +49,7 @@ export const Selection: React.FC<{
         wells={wells}
         selectedWellId={selectedWellId}
         setSelectedWellId={setSelectedWellId}
+        setSelectedWellName={setSelectedWellName}
       />
       <Alarm
         selectedWellId={selectedWellId}

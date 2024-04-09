@@ -11,7 +11,8 @@ import { ILlmPlotOutput } from "../../models/ILlmPlotOutput";
 export const Output: React.FC<{
   measurementData: IWellMeasurement[];
   llmPlotOutput: ILlmPlotOutput;
-}> = ({ measurementData, llmPlotOutput }) => {
+  selectedWellName: string;
+}> = ({ measurementData, llmPlotOutput, selectedWellName }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [showRpiAlarms, setShowRpiAlarms] = useState(false);
   const [showCpiAlarms, setShowCpiAlarms] = useState(false);

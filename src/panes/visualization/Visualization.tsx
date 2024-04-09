@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IWellMeasurement } from "../../models/IWellMeasurement";
 import styled from "styled-components";
 import { Chat } from "./Chat";
@@ -6,8 +6,10 @@ import { Output } from "./Output";
 import Card from "../../shared/Card";
 import { Typography } from "@equinor/eds-core-react";
 import { ILlmPlotOutput } from "../../models/ILlmPlotOutput";
+import { useNavigate } from "react-router-dom";
 
 export const Visualization: React.FC<{
+  selectedWellName: string;
   measurementData: IWellMeasurement[];
   setLlmPlotOutput: React.Dispatch<React.SetStateAction<ILlmPlotOutput>>;
   llmPlotOutput: ILlmPlotOutput;
@@ -21,10 +23,19 @@ export const Visualization: React.FC<{
   rpiAlarmValues,
   cpiAlarmValues,
   wpiAlarmValues,
+  selectedWellName,
 }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (selectedWellName === "") {
+      navigate("/selection");
+    }
+  }, [selectedWellName]);
   return (
     <VisualizationWrapper>
       <Chat
+        selectedWellName={selectedWellName}
         setLlmPlotOutput={setLlmPlotOutput}
         rpiAlarmValues={rpiAlarmValues}
         cpiAlarmValues={cpiAlarmValues}
@@ -32,6 +43,7 @@ export const Visualization: React.FC<{
       />
       {(measurementData && measurementData.length > 0 && (
         <Output
+          selectedWellName={selectedWellName}
           measurementData={measurementData}
           llmPlotOutput={llmPlotOutput}
         />
