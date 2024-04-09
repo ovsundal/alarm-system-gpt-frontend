@@ -12,6 +12,9 @@ export const LlmResponse: React.FC<{
   }
   return (
     <div>
+      <Typography variant={"h3"}>
+        {"LLM-generated PTA-metrics graph for " + llmPlotOutput.well_name}
+      </Typography>
       <ChartWrapper>
         <LlmPerformanceIndicatorGraph
           llmWellMeasurementData={llmPlotOutput.data_to_plot}
@@ -41,5 +44,5 @@ export const LlmResponse: React.FC<{
 
 const ChartWrapper = styled.div`
   width: 100%;
-  height: 500px;
+  height: 550px;
 `;

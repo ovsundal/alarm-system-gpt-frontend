@@ -12,4 +12,5 @@ export interface ILlmPlotOutput {
     wpi: number[];
   };
   trend_response: string[];
+  well_name: string;
 }

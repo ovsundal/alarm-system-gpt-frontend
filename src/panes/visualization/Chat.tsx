@@ -20,7 +20,13 @@ export const Chat: React.FC<{
   rpiAlarmValues: number[];
   cpiAlarmValues: number[];
   wpiAlarmValues: number[];
-}> = ({ setLlmPlotOutput, rpiAlarmValues, cpiAlarmValues, wpiAlarmValues }) => {
+}> = ({
+  setLlmPlotOutput,
+  rpiAlarmValues,
+  cpiAlarmValues,
+  wpiAlarmValues,
+  selectedWellName,
+}) => {
   const [message, setMessage] = useState("");
   const [messageContainer, setMessageContainer] = useState<Message[]>([
     {
@@ -32,7 +38,7 @@ export const Chat: React.FC<{
   ]);
   return (
     <CardWrapper>
-      <HeaderText>Chat</HeaderText>
+      <HeaderText>Chat for {selectedWellName}</HeaderText>
       <ChatWindowWrapper>
         <MessageWrapper>
           {messageContainer.map((message, index) => (
@@ -61,6 +67,7 @@ export const Chat: React.FC<{
               rpiAlarmValues,
               cpiAlarmValues,
               wpiAlarmValues,
+              selectedWellName,
             )
           }
           value={message}
@@ -80,6 +87,7 @@ export const Chat: React.FC<{
                   rpiAlarmValues,
                   cpiAlarmValues,
                   wpiAlarmValues,
+                  selectedWellName,
                 )
               }
             />
@@ -99,6 +107,7 @@ const handleKeyPress = (
   rpiAlarmValues: number[],
   cpiAlarmValues: number[],
   wpiAlarmValues: number[],
+  selectedWellName: string,
 ) => {
   if (e.key === "Enter") {
     handleSend(
@@ -109,6 +118,7 @@ const handleKeyPress = (
       rpiAlarmValues,
       cpiAlarmValues,
       wpiAlarmValues,
+      selectedWellName,
     );
   }
 };
@@ -121,6 +131,7 @@ const handleSend = async (
   rpiAlarmValues: number[],
   cpiAlarmValues: number[],
   wpiAlarmValues: number[],
+  selectedWellName: string,
 ) => {
   if (message.trim() === "") {
     return;
@@ -142,6 +153,7 @@ const handleSend = async (
     rpiAlarmValues,
     cpiAlarmValues,
     wpiAlarmValues,
+    selectedWellName,
   );
   const chatMessage = {
     position: "left",

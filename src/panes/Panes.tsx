@@ -34,7 +34,6 @@ export const Panes = () => {
   const path = useLocation().pathname;
 
   useSetActiveTab(path, setActiveTab);
-  console.log(selectedWellName);
   return (
     <Tabs
       activeTab={activeTab}

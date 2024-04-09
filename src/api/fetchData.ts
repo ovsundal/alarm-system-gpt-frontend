@@ -41,6 +41,7 @@ export const fetchSendMessage = async (
   rpiAlarmValues: number[],
   cpiAlarmValues: number[],
   wpiAlarmValues: number[],
+  selectedWellName: string,
 ) => {
   return (
     await axios.post("http://localhost:8000/api/chat/Chat/", {
@@ -48,6 +49,7 @@ export const fetchSendMessage = async (
       rpiAlarmValues,
       cpiAlarmValues,
       wpiAlarmValues,
+      selectedWellName,
     })
   ).data as ILlmChatResponse;
 };

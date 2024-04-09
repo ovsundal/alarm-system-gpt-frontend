@@ -26,7 +26,7 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
   };
 }> = ({ llmWellMeasurementData, graphParameters, alarmLimits }) => {
   return (
-    <ResponsiveContainer width={"100%"} height={500}>
+    <ResponsiveContainer width={"100%"} height={550}>
       <LineChart
         data={llmWellMeasurementData}
         margin={{

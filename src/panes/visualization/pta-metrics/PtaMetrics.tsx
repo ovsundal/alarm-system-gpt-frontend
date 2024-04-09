@@ -1,4 +1,4 @@
-import { Switch } from "@equinor/eds-core-react";
+import { Switch, Typography } from "@equinor/eds-core-react";
 import React from "react";
 import { PerformanceIndicatorsGraph } from "./PerformanceIndicatorsGraph";
 import { IWellMeasurement } from "../../../models/IWellMeasurement";
@@ -55,6 +55,9 @@ export const PtaMetrics: React.FC<{
         label={"Show trends"}
         onChange={() => setShowTrends((prevState) => !prevState)}
       />
+      <Typography variant={"h3"}>
+        PTA-metrics graph for {measurementData[0].well_name}
+      </Typography>
       <PerformanceIndicatorsGraph
         wellMeasurementData={measurementData}
         showTrends={showTrends}

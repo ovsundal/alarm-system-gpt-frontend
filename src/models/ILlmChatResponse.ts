@@ -7,7 +7,6 @@ export interface ILlmChatResponse {
 }
 
 export type ExtractDataParams = {
-  well_name: string;
   x_axis_dimension: string;
   y_axis_dimensions: string[];
   graph_description: string;
