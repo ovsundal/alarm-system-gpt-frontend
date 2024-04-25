@@ -27,17 +27,22 @@ export const LlmResponse: React.FC<{
         {llmPlotOutput.extract_data_params.graph_description}
       </Typography>
       <br />
-      <Typography variant={"h3"}>Trends</Typography>
-      {llmPlotOutput.trend_response.map((trend, index) => (
-        <Typography key={index}>{trend}</Typography>
-      ))}
-      <br />
-      <Typography variant={"h3"}>
-        PIs out of alarm range at the following points:
-      </Typography>
-      {llmPlotOutput.alarm_response.map((alarmResponse, index) => (
-        <Typography key={index}>{alarmResponse}</Typography>
-      ))}
+      <TrendAndAlarmWrapper>
+        <div>
+          <Typography variant={"h3"}>Trends</Typography>
+          {llmPlotOutput.trend_response.map((trend, index) => (
+            <Typography key={index}>{trend}</Typography>
+          ))}
+        </div>
+        <div>
+          <Typography variant={"h3"}>
+            PIs out of alarm range at the following points:
+          </Typography>
+          {llmPlotOutput.alarm_response.map((alarmResponse, index) => (
+            <Typography key={index}>{alarmResponse}</Typography>
+          ))}
+        </div>
+      </TrendAndAlarmWrapper>
     </div>
   );
 };
@@ -45,4 +50,9 @@ export const LlmResponse: React.FC<{
 const ChartWrapper = styled.div`
   width: 100%;
   height: 550px;
+`;
+
+const TrendAndAlarmWrapper = styled.div`
+  display: flex;
+  gap: 150px;
 `;

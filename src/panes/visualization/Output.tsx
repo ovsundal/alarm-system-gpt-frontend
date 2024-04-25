@@ -26,7 +26,7 @@ export const Output: React.FC<{
     <Card>
       <Tabs activeTab={activeTab} onChange={handleChange}>
         <Tabs.List>
-          <Tabs.Tab>LLM Response</Tabs.Tab>
+          <Tabs.Tab>LLM response</Tabs.Tab>
           <Tabs.Tab>PTA metrics</Tabs.Tab>
           <Tabs.Tab>Cross-plot</Tabs.Tab>
         </Tabs.List>
