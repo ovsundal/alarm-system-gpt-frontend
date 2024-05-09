@@ -64,8 +64,8 @@ export const Alarm: React.FC<{
                 <Label label="RPI" />
                 <Slider
                   min={0}
-                  max={6}
-                  step={0.1}
+                  max={2}
+                  step={0.01}
                   value={rpiAlarmValues}
                   labelAlwaysOn={true}
                   onChange={(
@@ -79,8 +79,8 @@ export const Alarm: React.FC<{
                 <Slider
                   defaultChecked={false}
                   min={0}
-                  max={6}
-                  step={0.1}
+                  max={2}
+                  step={0.01}
                   value={cpiAlarmValues}
                   labelAlwaysOn={true}
                   onChange={(
@@ -93,8 +93,8 @@ export const Alarm: React.FC<{
                 <Label label="WPI" />
                 <Slider
                   min={0}
-                  max={6}
-                  step={0.1}
+                  max={2}
+                  step={0.01}
                   value={wpiAlarmValues}
                   labelAlwaysOn={true}
                   onChange={(
@@ -190,6 +190,6 @@ const AlarmSliderWrapper = styled.div`
   gap: 25px;
 
   div > label {
-    justify-content: center;
+    justify-content: left;
   }
 `;
