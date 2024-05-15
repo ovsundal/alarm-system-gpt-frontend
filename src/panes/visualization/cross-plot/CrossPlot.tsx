@@ -23,10 +23,9 @@ export const CrossPlot: React.FC<{
   wellMeasurementData: IWellMeasurement[];
   xAxisDimension: string;
 }> = ({ wellMeasurementData, xAxisDimension }) => {
-  const wellMeasurementDataWithoutPredictions = wellMeasurementData.filter(
-    (dataPoint) => dataPoint.rpi != null,
-  );
-
+  const wellMeasurementDataWithoutPredictions = (
+    wellMeasurementData as IWellMeasurement[]
+  ).filter((dataPoint) => dataPoint.rpi != null);
   const colorScale = d3
     .scaleSequential()
     .domain(
@@ -55,13 +54,9 @@ export const CrossPlot: React.FC<{
           <XAxis
             type={"number"}
             dataKey={xAxisDimension}
-            label={
-              xAxisDimension === "temperature"
-                ? "Temperature, C\u00B0"
-                : "Pressure, bar"
-            }
+            label={"Pressure, bar"}
             height={75}
-            domain={xAxisDimension === "temperature" ? [52, 70] : [320, 420]}
+            domain={[320, 420]}
           />
           <YAxis
             type={"number"}
