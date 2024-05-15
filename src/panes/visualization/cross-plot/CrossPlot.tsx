@@ -36,16 +36,10 @@ export const CrossPlot: React.FC<{
       ],
     )
     .interpolator(interpolateTurbo);
-  let orderedWellMeasurementData: IWellMeasurement[];
-  if (xAxisDimension === "temperature") {
-    orderedWellMeasurementData = [
-      ...wellMeasurementDataWithoutPredictions,
-    ].sort((a, b) => Number(a.temperature) - Number(b.temperature));
-  } else {
-    orderedWellMeasurementData = [
-      ...wellMeasurementDataWithoutPredictions,
-    ].sort((a, b) => Number(a.pressure) - Number(b.pressure));
-  }
+  const orderedWellMeasurementData = [
+    ...wellMeasurementDataWithoutPredictions,
+  ].sort((a, b) => Number(a.pressure) - Number(b.pressure));
+
   return (
     <ChartWrapper>
       <ResponsiveContainer width={"100%"} height={500}>
@@ -90,9 +84,7 @@ export const CrossPlot: React.FC<{
               <Cell key={`cell-${index}`} fill={colorScale(entry.start_time)} />
             ))}
           </Scatter>
-          {xAxisDimension === "temperature"
-            ? renderTemperatureCorrelationLines()
-            : renderPressureCorrelationLines()}
+          {renderPressureCorrelationLines()}
           <Legend
             content={() => (
               <div>
@@ -105,77 +97,6 @@ export const CrossPlot: React.FC<{
         </ScatterChart>
       </ResponsiveContainer>
     </ChartWrapper>
-  );
-};
-
-const renderTemperatureCorrelationLines = () => {
-  const strokeWidth = 4;
-  const strokeDashArray = "4 4";
-
-  return (
-    <>
-      <ReferenceLine
-        label={{
-          value: "R²: 0.263",
-          position: "inside",
-          dy: -20,
-          fill: "red",
-        }}
-        stroke={"red"}
-        segment={[
-          { x: 52.4, y: 1.396 },
-          { x: 69.74, y: 1.221 },
-        ]}
-        strokeDasharray={strokeDashArray}
-        strokeWidth={strokeWidth}
-      />
-      <ReferenceLine
-        label={{
-          value: "R²: 0.759",
-          position: "inside",
-          dy: -30,
-          dx: 10,
-          fill: "green",
-        }}
-        stroke={"green"}
-        segment={[
-          { x: 54.41, y: 1.395 },
-          { x: 66.85, y: 2.096 },
-        ]}
-        strokeDasharray={strokeDashArray}
-        strokeWidth={strokeWidth}
-      />
-      <ReferenceLine
-        label={{
-          value: "R²: 0.017",
-          position: "top",
-          dy: -20,
-          fill: "blue",
-        }}
-        stroke={"blue"}
-        segment={[
-          { x: 52.74, y: 1.686 },
-          { x: 60.46, y: 1.738 },
-        ]}
-        strokeDasharray={strokeDashArray}
-        strokeWidth={strokeWidth}
-      />
-      <ReferenceLine
-        label={{
-          value: "R²: 0.808",
-          position: "right",
-          dx: -50,
-          fill: "black",
-        }}
-        stroke={"black"}
-        segment={[
-          { x: 60.61, y: 1.128 },
-          { x: 67.06, y: 0.569 },
-        ]}
-        strokeDasharray={strokeDashArray}
-        strokeWidth={strokeWidth}
-      />
-    </>
   );
 };
 

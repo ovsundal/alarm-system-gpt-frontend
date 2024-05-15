@@ -13,7 +13,7 @@ export const LlmResponse: React.FC<{
   return (
     <div>
       <Typography variant={"h3"}>
-        {"LLM-generated PTA-metrics graph for " + llmPlotOutput.well_name}
+        {"AI agent assisted graph for " + llmPlotOutput.well_name}
       </Typography>
       <ChartWrapper>
         <LlmPerformanceIndicatorGraph

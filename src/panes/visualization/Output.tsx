@@ -13,7 +13,7 @@ export const Output: React.FC<{
   llmPlotOutput: ILlmPlotOutput;
   selectedWellName: string;
 }> = ({ measurementData, llmPlotOutput, selectedWellName }) => {
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
   const [showRpiAlarms, setShowRpiAlarms] = useState(false);
   const [showCpiAlarms, setShowCpiAlarms] = useState(false);
   const [showWpiAlarms, setShowWpiAlarms] = useState(false);
@@ -26,14 +26,11 @@ export const Output: React.FC<{
     <Card>
       <Tabs activeTab={activeTab} onChange={handleChange}>
         <Tabs.List>
-          <Tabs.Tab>LLM response</Tabs.Tab>
           <Tabs.Tab>PTA metrics</Tabs.Tab>
           <Tabs.Tab>Cross-plot</Tabs.Tab>
+          <Tabs.Tab>AI agent response</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panels>
-          <Tabs.Panel>
-            <LlmResponse llmPlotOutput={llmPlotOutput} />
-          </Tabs.Panel>
           <Tabs.Panel>
             <PtaMetrics
               showRpiAlarms={showRpiAlarms}
@@ -54,13 +51,13 @@ export const Output: React.FC<{
             <CrossPlotWrapper>
               <CrossPlot
                 wellMeasurementData={measurementData}
-                xAxisDimension={"temperature"}
-              />
-              <CrossPlot
-                wellMeasurementData={measurementData}
                 xAxisDimension={"pressure"}
               />
             </CrossPlotWrapper>
+          </Tabs.Panel>
+
+          <Tabs.Panel>
+            <LlmResponse llmPlotOutput={llmPlotOutput} />
           </Tabs.Panel>
         </Tabs.Panels>
       </Tabs>
