@@ -26,7 +26,6 @@ export const CrossPlot: React.FC<{
   const wellMeasurementDataWithoutPredictions = (
     wellMeasurementData as IWellMeasurement[]
   ).filter((dataPoint) => dataPoint.rpi != null);
-  console.log(wellMeasurementDataWithoutPredictions);
   const colorScale = d3
     .scaleSequential()
     .domain(
