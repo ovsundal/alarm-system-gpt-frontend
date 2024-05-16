@@ -4,6 +4,7 @@ import {
   Line,
   LineChart,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
@@ -15,6 +16,7 @@ import {
   WPI_GRAPH_COLOR,
 } from "../../../shared/constants";
 import { ExtractDataParams } from "../../../models/ILlmChatResponse";
+import { CustomTooltip } from "../CustomTooltip";
 
 export const LlmPerformanceIndicatorGraph: React.FC<{
   llmWellMeasurementData: ILlmWellMeasurement[];
@@ -26,7 +28,7 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
   };
 }> = ({ llmWellMeasurementData, graphParameters, alarmLimits }) => {
   return (
-    <ResponsiveContainer width={"100%"} height={550}>
+    <ResponsiveContainer width={"100%"} height={500}>
       <LineChart
         data={llmWellMeasurementData}
         margin={{
@@ -42,6 +44,7 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
           label={graphParameters.x_axis_dimension}
           height={75}
           scale={"linear"}
+          ticks={generateTicks(0, 28000, 5000)}
         />
         <YAxis
           dataKey={graphParameters.y_axis_dimensions[0]}
@@ -53,6 +56,7 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
           }}
           domain={[0, 2.2]}
         />
+        <Tooltip content={<CustomTooltip />} />
         <Line
           type="monotone"
           dataKey="cpi"
@@ -89,6 +93,14 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
     </ResponsiveContainer>
   );
 };
+
+function generateTicks(start: number, end: number, step: number): number[] {
+  const result = [];
+  for (let i = start; i <= end; i += step) {
+    result.push(i);
+  }
+  return result;
+}
 
 const renderAlarmLimits = (color: string, alarmLimits: number[]) => {
   const strokeDashArray = "1 2";
