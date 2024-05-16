@@ -132,6 +132,11 @@ const CustomLegend: React.FC<{ parameters: string[] }> = ({ parameters }) => {
       color: CPI_GRAPH_COLOR,
       type: "solid",
     });
+    dataToShowInLegend.push({
+      name: "cpi-alarm",
+      color: CPI_GRAPH_COLOR,
+      type: "dashed",
+    });
   }
   if (parameters.includes("rpi")) {
     dataToShowInLegend.push({
@@ -139,12 +144,22 @@ const CustomLegend: React.FC<{ parameters: string[] }> = ({ parameters }) => {
       color: RPI_GRAPH_COLOR,
       type: "solid",
     });
+    dataToShowInLegend.push({
+      name: "rpi-alarm",
+      color: RPI_GRAPH_COLOR,
+      type: "dashed",
+    });
   }
   if (parameters.includes("wpi")) {
     dataToShowInLegend.push({
       name: "wpi",
       color: WPI_GRAPH_COLOR,
       type: "solid",
+    });
+    dataToShowInLegend.push({
+      name: "wpi-alarm",
+      color: WPI_GRAPH_COLOR,
+      type: "dashed",
     });
   }
 
