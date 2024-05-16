@@ -1,6 +1,6 @@
 import Card from "../../shared/Card";
 import React, { useState } from "react";
-import { Icon, Typography } from "@equinor/eds-core-react";
+import { Button, Icon, Typography } from "@equinor/eds-core-react";
 import "react-chat-elements/dist/main.css";
 import { Input, MessageBox } from "react-chat-elements";
 import styled from "styled-components";
@@ -38,7 +38,15 @@ export const Chat: React.FC<{
   ]);
   return (
     <CardWrapper>
-      <HeaderText>Chat for {selectedWellName}</HeaderText>
+      <HeaderWrapper>
+        <HeaderText>Chat for {selectedWellName}</HeaderText>
+        <Button
+          variant={"outlined"}
+          onClick={() => clearMessages(setMessageContainer)}
+        >
+          Clear chat
+        </Button>
+      </HeaderWrapper>
       <ChatWindowWrapper>
         <MessageWrapper>
           {messageContainer.map((message, index) => (
@@ -96,6 +104,12 @@ export const Chat: React.FC<{
       </ChatWindowWrapper>
     </CardWrapper>
   );
+};
+
+const clearMessages = (
+  setMessageContainer: React.Dispatch<React.SetStateAction<Message[]>>,
+) => {
+  setMessageContainer([]);
 };
 
 const handleKeyPress = (
@@ -185,4 +199,9 @@ const ChatWindowWrapper = styled.div`
 `;
 const MessageWrapper = styled.div`
   margin-bottom: 10px;
+`;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
