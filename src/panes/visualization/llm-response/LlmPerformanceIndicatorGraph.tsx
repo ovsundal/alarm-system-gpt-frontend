@@ -41,7 +41,11 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
           dataKey={graphParameters.x_axis_dimension}
-          label={graphParameters.x_axis_dimension}
+          label={
+            graphParameters.x_axis_dimension === "start_time"
+              ? "Time, hr"
+              : "Pressure, bar"
+          }
           height={75}
           scale={"linear"}
           ticks={generateTicks(0, 28000, 5000)}
@@ -54,7 +58,7 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
             position: "insideLeft",
             dy: 50,
           }}
-          domain={[0, 2.2]}
+          domain={[0, 1.1]}
         />
         <Tooltip content={<CustomTooltip />} />
         <Line
