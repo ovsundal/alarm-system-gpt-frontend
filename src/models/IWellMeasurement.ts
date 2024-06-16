@@ -31,46 +31,4 @@ export interface IWellMeasurement {
   pressure_predicted_r_squared_1: number;
   temperature_predicted_rpi_1: number;
   temperature_predicted_r_squared_1: number;
-
-  wpi_slope_2: number | undefined;
-  wpi_intercept_2: number | undefined;
-  wpi_r_squared_2: number[] | undefined;
-  cpi_slope_2: number | undefined;
-  cpi_intercept_2: number | undefined;
-  cpi_r_squared_2: number[] | undefined;
-  rpi_slope_2: number | undefined;
-  rpi_intercept_2: number | undefined;
-  rpi_r_squared_2: number[] | undefined;
-  pressure_predicted_rpi_2: number;
-  pressure_predicted_r_squared_2: number;
-  temperature_predicted_rpi_2: number;
-  temperature_predicted_r_squared_2: number;
-
-  wpi_slope_3: number | undefined;
-  wpi_intercept_3: number | undefined;
-  wpi_r_squared_3: number[] | undefined;
-  cpi_slope_3: number | undefined;
-  cpi_intercept_3: number | undefined;
-  cpi_r_squared_3: number[] | undefined;
-  rpi_slope_3: number | undefined;
-  rpi_intercept_3: number | undefined;
-  rpi_r_squared_3: number[] | undefined;
-  pressure_predicted_rpi_3: number;
-  pressure_predicted_r_squared_3: number;
-  temperature_predicted_rpi_3: number;
-  temperature_predicted_r_squared_3: number;
-
-  wpi_slope_4: number | undefined;
-  wpi_intercept_4: number | undefined;
-  wpi_r_squared_4: number[] | undefined;
-  cpi_slope_4: number | undefined;
-  cpi_intercept_4: number | undefined;
-  cpi_r_squared_4: number[] | undefined;
-  rpi_slope_4: number | undefined;
-  rpi_intercept_4: number | undefined;
-  rpi_r_squared_4: number[] | undefined;
-  pressure_predicted_rpi_4: number;
-  pressure_predicted_r_squared_4: number;
-  temperature_predicted_rpi_4: number;
-  temperature_predicted_r_squared_4: number;
 }

@@ -93,6 +93,7 @@ export const PerformanceIndicatorsGraph: React.FC<{
               position: "insideLeft",
               dy: 50,
             }}
+            domain={[0.6, 1.1]}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend

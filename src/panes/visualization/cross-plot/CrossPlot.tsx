@@ -22,10 +22,13 @@ import { CustomTooltip } from "../CustomTooltip";
 export const CrossPlot: React.FC<{
   wellMeasurementData: IWellMeasurement[];
   xAxisDimension: string;
-}> = ({ wellMeasurementData, xAxisDimension }) => {
+  yAxisDimension: string;
+}> = ({ wellMeasurementData, xAxisDimension, yAxisDimension }) => {
   const wellMeasurementDataWithoutPredictions = (
     wellMeasurementData as IWellMeasurement[]
-  ).filter((dataPoint) => dataPoint.rpi != null);
+  ).filter(
+    (dataPoint) => dataPoint[yAxisDimension as keyof IWellMeasurement] != null,
+  );
   const colorScale = d3
     .scaleSequential()
     .domain(
@@ -61,9 +64,9 @@ export const CrossPlot: React.FC<{
           <YAxis
             type={"number"}
             domain={[0, 2.2]}
-            dataKey={"rpi"}
+            dataKey={yAxisDimension.toUpperCase()}
             label={{
-              value: "RPI",
+              value: yAxisDimension.toUpperCase(),
               angle: -90,
               position: "insideLeft",
               dy: 15,
@@ -78,7 +81,10 @@ export const CrossPlot: React.FC<{
               <Cell key={`cell-${index}`} fill={colorScale(entry.start_time)} />
             ))}
           </Scatter>
-          {renderPressureCorrelationLines(orderedWellMeasurementData)}
+          {renderPressureCorrelationLines(
+            orderedWellMeasurementData,
+            yAxisDimension,
+          )}
           <Legend
             content={() => (
               <div>
@@ -96,27 +102,38 @@ export const CrossPlot: React.FC<{
 
 const renderPressureCorrelationLines = (
   orderedWellMeasurementData: IWellMeasurement[],
+  yAxisDimension: string,
 ) => {
   const strokeWidth = 4;
   const strokeDashArray = "4 4";
-  const rpiData = orderedWellMeasurementData.map((dataPoint) => ({
+
+  const slopeKey = `${yAxisDimension}_slope_1` as keyof IWellMeasurement;
+  const interceptKey =
+    `${yAxisDimension}_intercept_1` as keyof IWellMeasurement;
+  const rSquared =
+    // @ts-ignore
+    orderedWellMeasurementData[0][`${yAxisDimension}_r_squared_1`][0];
+
+  const piData = orderedWellMeasurementData.map((dataPoint) => ({
     x: dataPoint.pressure,
-    y: dataPoint.rpi_slope_1! * dataPoint.pressure + dataPoint.rpi_intercept_1!,
+    y:
+      (dataPoint[slopeKey]! as number) * dataPoint.pressure +
+      (dataPoint[interceptKey]! as number),
   }));
   return (
     <ReferenceLine
       label={{
-        value: `R²: ${orderedWellMeasurementData[0].rpi_r_squared_1![0]}`,
+        value: `R²: ${rSquared}`,
         position: "top",
         dy: -15,
         fill: "black",
       }}
       stroke={"black"}
       segment={[
-        { x: rpiData[0].x, y: rpiData[0].y },
+        { x: piData[0].x, y: piData[0].y },
         {
-          x: rpiData[rpiData.length - 1].x,
-          y: rpiData[rpiData.length - 1].y,
+          x: piData[piData.length - 1].x,
+          y: piData[piData.length - 1].y,
         },
       ]}
       strokeDasharray={strokeDashArray}

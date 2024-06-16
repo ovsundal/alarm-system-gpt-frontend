@@ -58,7 +58,7 @@ export const LlmPerformanceIndicatorGraph: React.FC<{
             position: "insideLeft",
             dy: 50,
           }}
-          domain={[0, 1.1]}
+          domain={[0.6, 1.1]}
         />
         <Tooltip content={<CustomTooltip />} />
         <Line

@@ -12,7 +12,7 @@ export const Output: React.FC<{
   measurementData: IWellMeasurement[];
   llmPlotOutput: ILlmPlotOutput;
   selectedWellName: string;
-}> = ({ measurementData, llmPlotOutput, selectedWellName }) => {
+}> = ({ measurementData, llmPlotOutput }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [showRpiAlarms, setShowRpiAlarms] = useState(false);
   const [showCpiAlarms, setShowCpiAlarms] = useState(false);
@@ -52,6 +52,7 @@ export const Output: React.FC<{
               <CrossPlot
                 wellMeasurementData={measurementData}
                 xAxisDimension={"pressure"}
+                yAxisDimension={"rpi"}
               />
             </CrossPlotWrapper>
           </Tabs.Panel>

@@ -5,13 +5,14 @@ import { IWellMeasurement } from "../../../models/IWellMeasurement";
 
 export const LlmCrossPlotGraph: React.FC<{
   llmWellMeasurementData: ILlmPlotOutput;
-}> = ({ llmWellMeasurementData }) => {
-  return (
-    <CrossPlot
-      wellMeasurementData={
-        llmWellMeasurementData.data_to_plot as IWellMeasurement[]
-      }
-      xAxisDimension={"pressure"}
-    />
-  );
-};
+}> = ({ llmWellMeasurementData }) => (
+  <CrossPlot
+    wellMeasurementData={
+      llmWellMeasurementData.data_to_plot as IWellMeasurement[]
+    }
+    xAxisDimension={"pressure"}
+    yAxisDimension={
+      llmWellMeasurementData.extract_data_params.y_axis_dimensions[0]
+    }
+  />
+);
