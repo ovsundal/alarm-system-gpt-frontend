@@ -20,14 +20,6 @@ import {
 } from "../../../shared/constants";
 import { CustomTooltip } from "../CustomTooltip";
 
-type AlarmArea = {
-  x1: number;
-  x2: number;
-  y1: number;
-  y2: number;
-  color: string;
-};
-
 export const PerformanceIndicatorsGraph: React.FC<{
   wellMeasurementData: IWellMeasurement[];
   showRpiAlarms: boolean;
@@ -43,28 +35,6 @@ export const PerformanceIndicatorsGraph: React.FC<{
   showWpiAlarms,
   showCpiAlarms,
 }) => {
-  const cpiAlarmData = findIndicatorOutsideOfAlarmRanges(
-    wellMeasurementData,
-    "cpi",
-    CPI_GRAPH_COLOR,
-    "cpi_alarm_lower_limit",
-    "cpi_alarm_upper_limit",
-  );
-  const rpiAlarmData = findIndicatorOutsideOfAlarmRanges(
-    wellMeasurementData,
-    "rpi",
-    RPI_GRAPH_COLOR,
-    "rpi_alarm_lower_limit",
-    "rpi_alarm_upper_limit",
-  );
-  const wpiAlarmData = findIndicatorOutsideOfAlarmRanges(
-    wellMeasurementData,
-    "wpi",
-    WPI_GRAPH_COLOR,
-    "wpi_alarm_lower_limit",
-    "wpi_alarm_upper_limit",
-  );
-
   return (
     <ChartWrapper>
       <ResponsiveContainer width={"100%"} height={500}>
@@ -108,21 +78,18 @@ export const PerformanceIndicatorsGraph: React.FC<{
           {showPis && renderPerformanceIndicators()}
           {showCpiAlarms &&
             renderAlarmLines(
-              cpiAlarmData,
               "cpi_alarm_lower_limit",
               "cpi_alarm_upper_limit",
               CPI_GRAPH_COLOR,
             )}
           {showRpiAlarms &&
             renderAlarmLines(
-              rpiAlarmData,
               "rpi_alarm_lower_limit",
               "rpi_alarm_upper_limit",
               RPI_GRAPH_COLOR,
             )}
           {showWpiAlarms &&
             renderAlarmLines(
-              wpiAlarmData,
               "wpi_alarm_lower_limit",
               "wpi_alarm_upper_limit",
               WPI_GRAPH_COLOR,
@@ -242,7 +209,6 @@ const renderPerformanceIndicators = () => (
 );
 
 const renderAlarmLines = (
-  alarmData: AlarmArea[],
   dataKeyLowerLimit: string,
   dataKeyUpperLimit: string,
   color: string,
@@ -268,17 +234,6 @@ const renderAlarmLines = (
           strokeDasharray={strokeDashArray}
         />
       }
-      {alarmData.map(({ x1, x2, y1, y2, color }, index) => (
-        <ReferenceArea
-          key={color + index}
-          x1={x1}
-          x2={x2}
-          y1={y1}
-          y2={y2}
-          fill={color}
-          fillOpacity={0.2}
-        />
-      ))}
     </>
   );
 };
@@ -337,81 +292,6 @@ const renderTrendLines = (wellMeasurements: IWellMeasurement[]) => {
       </ReferenceArea>
     </>
   );
-};
-
-const createAlarmArea = (
-  dataPoint: IWellMeasurement,
-  performanceIndicator: keyof IWellMeasurement,
-  alarmColor: string,
-  x1: number,
-  x2: number,
-  dataKeyLowerLimit: keyof IWellMeasurement,
-  dataKeyUpperLimit: keyof IWellMeasurement,
-): AlarmArea | null => {
-  if (dataPoint[performanceIndicator]! > dataPoint[dataKeyUpperLimit]!) {
-    return {
-      y1: dataPoint.rpi_alarm_upper_limit!,
-      y2: dataPoint[performanceIndicator]!,
-      x1,
-      x2,
-      color: alarmColor,
-    } as AlarmArea;
-  }
-
-  if (dataPoint[performanceIndicator]! < dataPoint[dataKeyLowerLimit]!) {
-    return {
-      y1: dataPoint[performanceIndicator]!,
-      y2: dataPoint.rpi_alarm_lower_limit!,
-      x1,
-      x2,
-      color: alarmColor,
-    } as AlarmArea;
-  }
-
-  return null;
-};
-
-const findIndicatorOutsideOfAlarmRanges = (
-  data: IWellMeasurement[],
-  performanceIndicator: keyof IWellMeasurement,
-  alarmColor: string,
-  dataKeyLowerAlarm: keyof IWellMeasurement,
-  dataKeyUpperAlarm: keyof IWellMeasurement,
-) => {
-  if (
-    data.length === 0 ||
-    data[0][dataKeyLowerAlarm as keyof IWellMeasurement] == null ||
-    data[0][dataKeyUpperAlarm as keyof IWellMeasurement] == null
-  ) {
-    return [];
-  }
-
-  const alarmAreas = [] as AlarmArea[];
-
-  data.forEach((dataPoint, index) => {
-    const x1 =
-      index === 0 ? data[index].start_time : data[index - 1].start_time;
-    const x2 =
-      index === data.length - 1
-        ? data[index].start_time
-        : data[index + 1].start_time;
-
-    const alarmArea = createAlarmArea(
-      dataPoint,
-      performanceIndicator,
-      alarmColor,
-      x1,
-      x2,
-      dataKeyLowerAlarm,
-      dataKeyUpperAlarm,
-    );
-
-    if (alarmArea) {
-      alarmAreas.push(alarmArea);
-    }
-  });
-
-  return alarmAreas;
 };
 
 const ChartWrapper = styled.div`
