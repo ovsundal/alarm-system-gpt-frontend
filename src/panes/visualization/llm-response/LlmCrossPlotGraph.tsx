@@ -14,5 +14,6 @@ export const LlmCrossPlotGraph: React.FC<{
     yAxisDimension={
       llmWellMeasurementData.extract_data_params.y_axis_dimensions[0]
     }
+    isBenchmarkPlot={false}
   />
 );

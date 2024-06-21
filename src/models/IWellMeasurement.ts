@@ -27,8 +27,14 @@ export interface IWellMeasurement {
   rpi_slope_1: number | undefined;
   rpi_intercept_1: number | undefined;
   rpi_r_squared_1: number[] | undefined;
-  pressure_predicted_rpi_1: number;
-  pressure_predicted_r_squared_1: number;
-  temperature_predicted_rpi_1: number;
-  temperature_predicted_r_squared_1: number;
+
+  wpi_slope_pressure_1: number | undefined;
+  wpi_intercept_pressure_1: number | undefined;
+  wpi_r_squared_pressure_1: number[] | undefined;
+  cpi_slope_pressure_1: number | undefined;
+  cpi_intercept_pressure_1: number | undefined;
+  cpi_r_squared_pressure_1: number[] | undefined;
+  rpi_slope_pressure_1: number | undefined;
+  rpi_intercept_pressure_1: number | undefined;
+  rpi_r_squared_pressure_1: number[] | undefined;
 }

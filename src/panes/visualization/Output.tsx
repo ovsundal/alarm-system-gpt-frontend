@@ -53,6 +53,7 @@ export const Output: React.FC<{
                 wellMeasurementData={measurementData}
                 xAxisDimension={"pressure"}
                 yAxisDimension={"rpi"}
+                isBenchmarkPlot={true}
               />
             </CrossPlotWrapper>
           </Tabs.Panel>

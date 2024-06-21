@@ -23,7 +23,13 @@ export const CrossPlot: React.FC<{
   wellMeasurementData: IWellMeasurement[];
   xAxisDimension: string;
   yAxisDimension: string;
-}> = ({ wellMeasurementData, xAxisDimension, yAxisDimension }) => {
+  isBenchmarkPlot: boolean;
+}> = ({
+  wellMeasurementData,
+  xAxisDimension,
+  yAxisDimension,
+  isBenchmarkPlot,
+}) => {
   const wellMeasurementDataWithoutPredictions = (
     wellMeasurementData as IWellMeasurement[]
   ).filter(
@@ -64,7 +70,7 @@ export const CrossPlot: React.FC<{
           <YAxis
             type={"number"}
             domain={[0, 2.2]}
-            dataKey={yAxisDimension.toUpperCase()}
+            dataKey={yAxisDimension}
             label={{
               value: yAxisDimension.toUpperCase(),
               angle: -90,
@@ -84,6 +90,7 @@ export const CrossPlot: React.FC<{
           {renderPressureCorrelationLines(
             orderedWellMeasurementData,
             yAxisDimension,
+            isBenchmarkPlot,
           )}
           <Legend
             content={() => (
@@ -103,16 +110,21 @@ export const CrossPlot: React.FC<{
 const renderPressureCorrelationLines = (
   orderedWellMeasurementData: IWellMeasurement[],
   yAxisDimension: string,
+  isBenchmarkPlot: boolean,
 ) => {
   const strokeWidth = 4;
   const strokeDashArray = "4 4";
-
-  const slopeKey = `${yAxisDimension}_slope_1` as keyof IWellMeasurement;
-  const interceptKey =
-    `${yAxisDimension}_intercept_1` as keyof IWellMeasurement;
-  const rSquared =
-    // @ts-ignore
-    orderedWellMeasurementData[0][`${yAxisDimension}_r_squared_1`][0];
+  const slopeKey = isBenchmarkPlot
+    ? (`${yAxisDimension}_slope_pressure_1` as keyof IWellMeasurement)
+    : (`${yAxisDimension}_slope_1` as keyof IWellMeasurement);
+  const interceptKey = isBenchmarkPlot
+    ? (`${yAxisDimension}_intercept_pressure_1` as keyof IWellMeasurement)
+    : (`${yAxisDimension}_intercept_1` as keyof IWellMeasurement);
+  const rSquared = isBenchmarkPlot
+    ? // @ts-ignore
+      orderedWellMeasurementData[0][`${yAxisDimension}_r_squared_pressure_1`][0]
+    : // @ts-ignore
+      orderedWellMeasurementData[0][`${yAxisDimension}_r_squared_1`][0];
 
   const piData = orderedWellMeasurementData.map((dataPoint) => ({
     x: dataPoint.pressure,
